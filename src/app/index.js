@@ -22,7 +22,7 @@ export default () => (
       <Header />
       <Route path={routes.home} exact component={Home} />
       <Route path={`${routes.project}/:slug`} component={Home} />
-      <Route path={routes.contact} exact component={Home} />
+      <Route path={routes.contact} exact component={() => <div>contact</div>} />
     </HashRouter>
   </Provider>
 );

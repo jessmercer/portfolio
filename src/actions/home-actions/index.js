@@ -20,7 +20,7 @@ function fetchHomeError() {
 }
 
 export const requestHomeApi =
-  'http://www.boggonbone.co.uk/api/wp-json/wp/v2/pages?slug=home&_fields=acf';
+  'https://cors-anywhere.herokuapp.com/http://www.boggonbone.co.uk/api/wp-json/wp/v2/pages?slug=home&_fields=acf';
 
 export function requestHome() {
   return dispatch => {
