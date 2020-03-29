@@ -4,4 +4,4 @@ export const routes = {
   contact: '/contact'
 };
 
-const prependRequest = 'https://cors-anywhere.herokuapp.com/';
+export const prependRequest = 'https://cors-anywhere.herokuapp.com/';

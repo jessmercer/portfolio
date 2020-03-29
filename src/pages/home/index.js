@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Element as ScrollElement } from 'react-scroll';
 
@@ -16,6 +16,15 @@ import { requestProjects } from '../../actions/projects-actions';
 import { routes, prependRequest } from '../../lib/constants';
 
 import './index.css';
+
+const toDataURL = url => fetch(url)
+  .then(response => response.blob())
+  .then(blob => new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onloadend = () => resolve(reader.result)
+    reader.onerror = reject
+    reader.readAsDataURL(blob)
+  }))
 
 export default () => {
   const dispatch = useDispatch();
@@ -36,6 +45,12 @@ export default () => {
     dispatch(requestHome());
     dispatch(requestProjects());
   }, []);
+
+  const [test, setTest] = useState('');
+
+  useEffect(() => {
+    toDataURL(prependRequest + 'http://www.boggonbone.co.uk/api/wp-content/uploads/2020/03/test_image_2-scaled.jpeg').then(img => setTest(img))
+  }, [test])
 
   if (
     isHomeInitial ||
@@ -76,12 +91,15 @@ export default () => {
                 <Link to={`${routes.project}/${slug}`}>
                   <div className="project__img">
                     <Image
-                      src={`${prependRequest}${acf.image.sizes.medium_large}`}
+                      src={test}
+                    />
+                    <Image
+                      src={acf.image.sizes.medium_large}
                       alt={titleRendered}
                       sources={[
                         {
-                          srcSet: `${prependRequest}${acf.image.sizes['1536x1536']}`,
-                          width: `${prependRequest}${acf.image.sizes['1536x1536-width']}`
+                          srcSet: acf.image.sizes['1536x1536'],
+                          width: acf.image.sizes['1536x1536-width']
                         }
                       ]}
                     />
