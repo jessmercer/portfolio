@@ -1,4 +1,4 @@
-import { BrowserRouter, Route } from 'react-router-dom';
+import { HashRouter, Route } from 'react-router-dom';
 import { createStore, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import React from 'react';
@@ -18,11 +18,11 @@ const store = createStore(rootReducer, composeEnhancer(applyMiddleware(thunk)));
 
 export default () => (
   <Provider store={store}>
-    <BrowserRouter>
+    <HashRouter>
       <Header />
       <Route path={routes.home} exact component={Home} />
       <Route path={`${routes.project}/:slug`} component={Home} />
       <Route path={routes.contact} exact component={Home} />
-    </BrowserRouter>
+    </HashRouter>
   </Provider>
 );
