@@ -1,3 +1,4 @@
+import { prependRequest } from '../../lib/constants';
 import {
   FETCH_PROJECTS,
   FETCH_PROJECTS_SUCCESS,
@@ -24,7 +25,7 @@ function fetchProjectsError() {
 }
 
 export const requestProjectsApi =
-  'https://cors-anywhere.herokuapp.com/http://www.boggonbone.co.uk/api/wp-json/wp/v2/project?_fields=title,acf,slug';
+  `${prependRequest}http://www.boggonbone.co.uk/api/wp-json/wp/v2/project?_fields=title,acf,slug`;
 
 export function requestProjects() {
   return dispatch => {

@@ -3,3 +3,5 @@ export const routes = {
   project: '/project',
   contact: '/contact'
 };
+
+const prependRequest = 'https://cors-anywhere.herokuapp.com/';

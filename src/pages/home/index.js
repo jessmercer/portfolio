@@ -13,7 +13,7 @@ import Wrapper from '../../components/wrapper';
 import { requestHome } from '../../actions/home-actions';
 import { requestProjects } from '../../actions/projects-actions';
 
-import { routes } from '../../lib/constants';
+import { routes, prependRequest } from '../../lib/constants';
 
 import './index.css';
 
@@ -76,12 +76,12 @@ export default () => {
                 <Link to={`${routes.project}/${slug}`}>
                   <div className="project__img">
                     <Image
-                      src={acf.image.sizes.medium_large}
+                      src={`${prependRequest}${acf.image.sizes.medium_large}`}
                       alt={titleRendered}
                       sources={[
                         {
-                          srcSet: acf.image.sizes['1536x1536'],
-                          width: acf.image.sizes['1536x1536-width']
+                          srcSet: `${prependRequest}${acf.image.sizes['1536x1536']}`,
+                          width: `${prependRequest}${acf.image.sizes['1536x1536-width']}`
                         }
                       ]}
                     />

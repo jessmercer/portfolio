@@ -1,3 +1,4 @@
+import { prependRequest } from '../../lib/constants';
 import { FETCH_HOME, FETCH_HOME_SUCCESS, FETCH_HOME_ERROR } from './types';
 
 function fetchHome() {
@@ -20,7 +21,7 @@ function fetchHomeError() {
 }
 
 export const requestHomeApi =
-  'https://cors-anywhere.herokuapp.com/http://www.boggonbone.co.uk/api/wp-json/wp/v2/pages?slug=home&_fields=acf';
+  `${prependRequest}http://www.boggonbone.co.uk/api/wp-json/wp/v2/pages?slug=home&_fields=acf`;
 
 export function requestHome() {
   return dispatch => {
