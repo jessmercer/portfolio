@@ -13,18 +13,9 @@ import Wrapper from '../../components/wrapper';
 import { requestHome } from '../../actions/home-actions';
 import { requestProjects } from '../../actions/projects-actions';
 
-import { routes, prependRequest } from '../../lib/constants';
+import { routes } from '../../lib/constants';
 
 import './index.css';
-
-const toDataURL = url => fetch(url)
-  .then(response => response.blob())
-  .then(blob => new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onloadend = () => resolve(reader.result)
-    reader.onerror = reject
-    reader.readAsDataURL(blob)
-  }))
 
 export default () => {
   const dispatch = useDispatch();
@@ -45,12 +36,6 @@ export default () => {
     dispatch(requestHome());
     dispatch(requestProjects());
   }, []);
-
-  const [test, setTest] = useState('');
-
-  useEffect(() => {
-    toDataURL(prependRequest + 'http://www.boggonbone.co.uk/api/wp-content/uploads/2020/03/test_image_2-scaled.jpeg').then(img => setTest(img))
-  }, [test])
 
   if (
     isHomeInitial ||
@@ -90,9 +75,6 @@ export default () => {
               <Tiles.Tile key={titleRendered}>
                 <Link to={`${routes.project}/${slug}`}>
                   <div className="project__img">
-                    <Image
-                      src={test}
-                    />
                     <Image
                       src={acf.image.sizes.medium_large}
                       alt={titleRendered}

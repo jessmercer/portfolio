@@ -1,16 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-// import './index.css';
+import useImage from '../../hooks/use-image';
 
-const Image = ({ src, alt, sources, dataId }) => (
-  <picture data-qa="image" data-id={dataId}>
-    {sources.map(({ srcSet, width }) => (
-      <source srcSet={srcSet} media={`(min-width: ${width}px)`} key={srcSet} />
-    ))}
-    <img src={src} alt={alt} />
-  </picture>
-);
+const Source = ({ srcSet: srcSetRaw, width }) => {
+  const srcSet = useImage(srcSetRaw);
+
+  return <source srcSet={srcSet} media={`(min-width: ${width}px)`} />
+};
+
+Source.propTypes = {
+  srcSet: PropTypes.string.isRequired,
+  width: PropTypes.number.isRequired,
+};
+
+const Image = ({ src: srcRaw, alt, sources, dataId }) => {
+  const src = useImage(srcRaw);
+
+  return (
+    <picture data-qa="image" data-id={dataId}>
+      {sources.map(({ srcSet, width }) => (
+        <Source srcSet={srcSet} width={width} key={srcSet} />
+      ))}
+      <img src={src} alt={alt} />
+    </picture>
+  )
+};
 
 Image.propTypes = {
   src: PropTypes.string.isRequired,
