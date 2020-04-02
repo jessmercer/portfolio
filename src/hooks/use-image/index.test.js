@@ -1,6 +1,5 @@
 /* eslint react/prop-types: 0 */
 import React from 'react';
-import { act } from 'react-dom/test-utils';
 
 import useImage from '.';
 import toDataURL from './to-data-url';
