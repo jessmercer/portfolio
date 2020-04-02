@@ -1,8 +1,5 @@
 {
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended"
-  ],
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
   "env": {
     "browser": true,
     "commonjs": true,
@@ -19,10 +16,7 @@
   "rules": {
     "react/display-name": "off",
     "no-console": "off",
-    "strict": [
-      "error",
-      "global"
-    ],
+    "strict": ["error", "global"],
     "curly": "warn",
     "no-unused-vars": [
       1,
@@ -30,10 +24,7 @@
         "argsIgnorePattern": "res|next|^err"
       }
     ],
-    "arrow-body-style": [
-      2,
-      "as-needed"
-    ],
+    "arrow-body-style": [2, "as-needed"],
     "no-param-reassign": [
       2,
       {
@@ -67,14 +58,7 @@
       2,
       {
         "hoist": "all",
-        "allow": [
-          "resolve",
-          "reject",
-          "done",
-          "next",
-          "err",
-          "error"
-        ]
+        "allow": ["resolve", "reject", "done", "next", "err", "error"]
       }
     ],
     "quotes": [
@@ -85,14 +69,13 @@
         "allowTemplateLiterals": true
       }
     ],
-    "react/require-default-props": [1]
+    "react/require-default-props": [1],
+    "react-hooks/exhaustive-deps": "error"
   },
-  "overrides": [{
-    "files": ["*.test.js", "*.spec.js"]
-  }],
-  "plugins": [
-    "react",
-    "import",
-    "prettier"
-  ]
+  "overrides": [
+    {
+      "files": ["*.test.js", "*.spec.js"]
+    }
+  ],
+  "plugins": ["react", "import", "prettier", "react-hooks"]
 }

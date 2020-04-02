@@ -35,7 +35,7 @@ export default () => {
   useEffect(() => {
     dispatch(requestHome());
     dispatch(requestProjects());
-  }, []);
+  }, [dispatch]);
 
   if (hasHomeError || hasProjectsError) {
     return (

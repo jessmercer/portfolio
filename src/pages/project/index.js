@@ -26,7 +26,7 @@ export default () => {
 
   useEffect(() => {
     dispatch(requestProjects(slug));
-  }, []);
+  }, [dispatch, slug]);
 
   if (
     hasProjectsError ||

@@ -10,7 +10,7 @@ export default url => {
 
   useEffect(() => {
     toDataURL(`${prependRequest}${url}`).then(img => setBlob(img));
-  }, []);
+  }, [url]);
 
   return blob;
 };
