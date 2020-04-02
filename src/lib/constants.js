@@ -4,4 +4,7 @@ export const routes = {
   contact: '/contact'
 };
 
-export const prependRequest = 'https://cors-anywhere.herokuapp.com/';
+export const prependRequest =
+  window.location.hostname === 'localhost'
+    ? ''
+    : 'https://cors-anywhere.herokuapp.com/';

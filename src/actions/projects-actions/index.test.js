@@ -8,7 +8,7 @@ import {
   FETCH_PROJECTS_ERROR
 } from './types';
 
-import { requestProjects, requestProjectsApi } from '.';
+import { requestProjects, getRequestProjectsApi } from '.';
 
 describe('Actions: projects', () => {
   describe('requestProjects', () => {
@@ -20,13 +20,31 @@ describe('Actions: projects', () => {
     const mockStore = configureMockStore(middlewares);
 
     it('creates FETCH_PROJECTS_SUCCESS when fetching projects is a success', () => {
-      fetchMock.getOnce(requestProjectsApi, {
+      fetchMock.getOnce(getRequestProjectsApi(), {
         body: { test: 'test' },
         headers: { 'content-type': 'application/json' }
       });
-      const store = mockStore({ projects: [] });
+      const store = mockStore();
 
       return store.dispatch(requestProjects()).then(() => {
+        expect(fetchMock._calls[0][0]).toBe(getRequestProjectsApi());
+        expect(store.getActions()).toEqual([
+          { type: FETCH_PROJECTS },
+          { type: FETCH_PROJECTS_SUCCESS, data: { test: 'test' } }
+        ]);
+      });
+    });
+
+    it('creates FETCH_PROJECTS_SUCCESS when fetching projects is a success and there is a slug', () => {
+      const slug = 'test-1';
+      fetchMock.getOnce(getRequestProjectsApi(slug), {
+        body: { test: 'test' },
+        headers: { 'content-type': 'application/json' }
+      });
+      const store = mockStore();
+
+      return store.dispatch(requestProjects(slug)).then(response => {
+        expect(fetchMock._calls[0][0]).toBe(getRequestProjectsApi(slug));
         expect(store.getActions()).toEqual([
           { type: FETCH_PROJECTS },
           { type: FETCH_PROJECTS_SUCCESS, data: { test: 'test' } }
@@ -35,12 +53,13 @@ describe('Actions: projects', () => {
     });
 
     it('creates FETCH_PROJECTS_ERROR when fetching projects is a failure', () => {
-      fetchMock.getOnce(requestProjectsApi, {
+      fetchMock.getOnce(getRequestProjectsApi(), {
         headers: { 'content-type': 'application/json' }
       });
-      const store = mockStore({ authors: [] });
+      const store = mockStore();
 
       return store.dispatch(requestProjects()).then(() => {
+        expect(fetchMock._calls[0][0]).toBe(getRequestProjectsApi());
         expect(store.getActions()).toEqual([
           { type: FETCH_PROJECTS },
           { type: FETCH_PROJECTS_ERROR }

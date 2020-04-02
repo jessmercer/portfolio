@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Element as ScrollElement } from 'react-scroll';
 
@@ -37,6 +37,14 @@ export default () => {
     dispatch(requestProjects());
   }, []);
 
+  if (hasHomeError || hasProjectsError) {
+    return (
+      <ErrorMessage>
+        Oops, something went wrong with loading the homepage.
+      </ErrorMessage>
+    );
+  }
+
   if (
     isHomeInitial ||
     isHomePending ||
@@ -46,23 +54,21 @@ export default () => {
     return <Loader />;
   }
 
-  if (hasHomeError || hasProjectsError) {
-    return (
-      <ErrorMessage>
-        Oops, something went wrong with loading the homepage.
-      </ErrorMessage>
-    );
-  }
-
   return (
     <div className="home">
       <Wrapper>
         <div className="description">
-          <Text style={Text.styles.medium}>{home.acf.description}</Text>
+          <Text style={Text.styles.medium} dataId="description">
+            {home.acf.description}
+          </Text>
         </div>
 
         <ScrollElement name="projects" className="page-heading">
-          <Text element={Text.elements.h1} style={Text.styles.large}>
+          <Text
+            element={Text.elements.h1}
+            style={Text.styles.large}
+            dataId="page-heading"
+          >
             {home.acf.heading}
           </Text>
         </ScrollElement>
@@ -72,7 +78,7 @@ export default () => {
             const titleRendered = title.rendered;
 
             return (
-              <Tiles.Tile key={titleRendered}>
+              <Tiles.Tile key={slug} dataId={slug}>
                 <Link to={`${routes.project}/${slug}`}>
                   <div className="project__img">
                     <Image
@@ -80,8 +86,8 @@ export default () => {
                       alt={titleRendered}
                       sources={[
                         {
-                          srcSet: acf.image.sizes['1536x1536'],
-                          width: acf.image.sizes['1536x1536-width']
+                          srcSet: acf.image.sizes['post-thumbnail'],
+                          width: acf.image.sizes['medium_large-width']
                         }
                       ]}
                     />

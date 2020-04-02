@@ -5,7 +5,7 @@ import {
   FETCH_PROJECTS_ERROR
 } from './types';
 
-function fetchProjecst() {
+function fetchProjects() {
   return {
     type: FETCH_PROJECTS
   };
@@ -24,13 +24,15 @@ function fetchProjectsError() {
   };
 }
 
-export const requestProjectsApi =
-  `${prependRequest}http://www.boggonbone.co.uk/api/wp-json/wp/v2/project?_fields=title,acf,slug`;
+const requestProjectsApi = `${prependRequest}http://www.boggonbone.co.uk/api/wp-json/wp/v2/project?_fields=title,acf,slug`;
 
-export function requestProjects() {
+export const getRequestProjectsApi = slug =>
+  slug ? `${requestProjectsApi}&slug=${slug}` : requestProjectsApi;
+
+export function requestProjects(slug) {
   return dispatch => {
-    dispatch(fetchProjecst());
-    return fetch(requestProjectsApi)
+    dispatch(fetchProjects());
+    return fetch(getRequestProjectsApi(slug))
       .then(response => response.json())
       .then(
         data => dispatch(fetchProjectsSuccess(data)),

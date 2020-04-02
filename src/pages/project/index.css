@@ -1,0 +1,9 @@
+.project .tile {
+  flex-basis: initial;
+  max-width: none;
+  width: 100%;
+}
+
+.project__tools {
+  margin-top: 15px;
+}

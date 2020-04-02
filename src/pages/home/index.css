@@ -12,9 +12,9 @@
 }
 
 .page-heading {
-  text-align: center;
   margin-bottom: 20px;
   padding-top: 20px;
+  text-align: center;
 }
 
 .project__img img {
@@ -31,8 +31,8 @@
     height: 100vh;
     position: relative;
     margin: 0;
+    text-align: center;
   }
-
   .description .text {
     position: absolute;
     top: 30%;

@@ -20,9 +20,10 @@ describe('Actions: home', () => {
         body: { test: 'test' },
         headers: { 'content-type': 'application/json' }
       });
-      const store = mockStore({ home: [] });
+      const store = mockStore();
 
       return store.dispatch(requestHome()).then(() => {
+        expect(fetchMock._calls[0][0]).toBe(requestHomeApi);
         expect(store.getActions()).toEqual([
           { type: FETCH_HOME },
           { type: FETCH_HOME_SUCCESS, data: { test: 'test' } }
@@ -34,9 +35,10 @@ describe('Actions: home', () => {
       fetchMock.getOnce(requestHomeApi, {
         headers: { 'content-type': 'application/json' }
       });
-      const store = mockStore({ home: [] });
+      const store = mockStore();
 
       return store.dispatch(requestHome()).then(() => {
+        expect(fetchMock._calls[0][0]).toBe(requestHomeApi);
         expect(store.getActions()).toEqual([
           { type: FETCH_HOME },
           { type: FETCH_HOME_ERROR }

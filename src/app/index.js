@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 
 import Header from '../components/header';
 import Home from '../pages/home';
+import Project from '../pages/project';
 
 import { routes } from '../lib/constants';
 import rootReducer from '../reducers';
@@ -19,10 +20,16 @@ const store = createStore(rootReducer, composeEnhancer(applyMiddleware(thunk)));
 export default () => (
   <Provider store={store}>
     <HashRouter>
-      <Header />
-      <Route path={routes.home} exact component={Home} />
-      <Route path={`${routes.project}/:slug`} component={Home} />
-      <Route path={routes.contact} exact component={() => <div>contact hey</div>} />
+      <div className="body">
+        <Header />
+        <Route path={routes.home} exact component={Home} />
+        <Route path={`${routes.project}/:slug`} component={Project} />
+        <Route
+          path={routes.contact}
+          exact
+          component={() => <div>contact hey</div>}
+        />
+      </div>
     </HashRouter>
   </Provider>
 );
