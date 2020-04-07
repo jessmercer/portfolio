@@ -20,19 +20,28 @@ export const setupTestComponent = ({ render } = {}) => ({ props } = {}) => ({
 
 export const setupTestProvider = ({
   render,
-  prerender: basePrerender = () => {}
-} = {}) => ({ props, prerender: testPrerender = () => {} } = {}) => {
+  prerender: basePrerender = () => {},
+  path: basePath,
+  initialEntries: baseInitialEntries
+} = {}) => ({
+  props,
+  prerender: testPrerender = () => {},
+  path: testPath,
+  initialEntries: testInitialEntries
+} = {}) => {
   const store = createStore(rootReducer, {}, compose(applyMiddleware(thunk)));
   let history;
   basePrerender(store);
   testPrerender(store);
+  const path = testPath || basePath || '*';
+  const initialEntries = testInitialEntries || baseInitialEntries || ['/'];
 
   return {
     wrapper: mount(
-      <MemoryRouter>
+      <MemoryRouter initialEntries={initialEntries}>
         <Provider store={store}>
           <Route
-            path="*"
+            path={path}
             render={({ history: _history }) => {
               history = _history;
               return React.cloneElement(render(), props);

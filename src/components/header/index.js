@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link as ScrollLink } from 'react-scroll';
 
 import Link from '../../components/link';
 import Text from '../../components/text';
@@ -22,13 +21,6 @@ const Header = () => (
       <Text dataId="job-description">Front End Web Developer</Text>
     </div>
     <div className="nav">
-      <div className="nav__link">
-        <Text element={Text.elements.span} dataId="projects-link">
-          <ScrollLink to="projects" smooth={true}>
-            Projects
-          </ScrollLink>
-        </Text>
-      </div>
       <div className="nav__link">
         <Text element={Text.elements.span} dataId="contact-link">
           <Link to={routes.contact}>Contact</Link>

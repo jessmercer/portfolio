@@ -1,6 +1,5 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { Link as ScrollLink } from 'react-scroll';
 
 import { routes } from '../../lib/constants';
 
@@ -49,22 +48,10 @@ describe('Components: Header', () => {
     );
   });
 
-  it('should render projects with correct text as span', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('span[data-id="projects-link"] a')).toHaveText(
-      'Projects'
-    );
-  });
-
   it('should render contact with correct text as span', () => {
     const { wrapper } = setupTest();
     expect(wrapper.find('span[data-id="contact-link"] a')).toHaveText(
       'Contact'
     );
-  });
-
-  it('should have a scroll link with a to of projects', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find(ScrollLink)).toHaveProp('to', 'projects');
   });
 });

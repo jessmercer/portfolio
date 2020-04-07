@@ -2,7 +2,6 @@ import React from 'react';
 
 import { setupTestProvider } from '../../setupTests';
 import Home from '.';
-import { Element as ScrollElement } from 'react-scroll';
 import * as homeActions from '../../actions/home-actions';
 import * as projectsActions from '../../actions/projects-actions';
 import {
@@ -15,8 +14,8 @@ import {
   FETCH_PROJECTS_SUCCESS,
   FETCH_PROJECTS_ERROR
 } from '../../actions/projects-actions/types';
-import homeResponse from './test-resources/home-response';
-import projectsResponse from './test-resources/projects-response';
+import homeResponse from '../../test-resources/home-response';
+import projectsResponse from '../../test-resources/projects-response';
 import { routes } from '../../lib/constants';
 
 jest.spyOn(homeActions, 'requestHome').mockReturnValue(jest.fn());
@@ -118,17 +117,24 @@ describe('Pages: Home', () => {
     });
   });
 
+  describe('Actions', () => {
+    it('should call requestHome', () => {
+      setupTest();
+      expect(homeActions.requestHome).toHaveBeenCalled();
+    });
+
+    it('should call requestProjects', () => {
+      setupTest();
+      expect(projectsActions.requestProjects).toHaveBeenCalled();
+    });
+  });
+
   describe('Success', () => {
     it('renders the description', () => {
       const { wrapper } = setupTestSuccess();
       expect(wrapper.find('[data-id="description"]')).toHaveText(
         homeResponse[0].acf.description
       );
-    });
-
-    it('renders the page header id for header scrolling', () => {
-      const { wrapper } = setupTestSuccess();
-      expect(wrapper.find(ScrollElement)).toHaveProp('name', 'projects');
     });
 
     it('renders the page header with text', () => {

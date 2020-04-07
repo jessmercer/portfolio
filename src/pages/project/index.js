@@ -2,11 +2,12 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import ErrorMessage from '../../components/error-message';
+import Image from '../../components/image';
+import Link from '../../components/link';
+import Loader from '../../components/loader';
 import Text from '../../components/text';
 import Tiles from '../../components/tiles';
-import Image from '../../components/image';
-import Loader from '../../components/loader';
-import ErrorMessage from '../../components/error-message';
 import Wrapper from '../../components/wrapper';
 
 import { requestProjects } from '../../actions/projects-actions';
@@ -44,7 +45,7 @@ export default () => {
   }
 
   const titleRendered = project.title.rendered;
-  const { image, tools } = project.acf;
+  const { image, tools, created_with, project_link } = project.acf;
   const { sizes } = image;
 
   return (
@@ -53,7 +54,13 @@ export default () => {
         <Tiles>
           <Tiles.Tile>
             <div className="project__title">
-              <Text style={Text.styles.medium}>{titleRendered}</Text>
+              <Text
+                element={Text.elements.h1}
+                style={Text.styles.large}
+                dataId="title"
+              >
+                {titleRendered}
+              </Text>
             </div>
             <div className="project__img">
               <Image
@@ -71,8 +78,22 @@ export default () => {
                 ]}
               />
             </div>
+            <div className="project__created">
+              <Text style={Text.styles.medium} dataId="created-width">
+                Created with: {created_with}
+              </Text>
+            </div>
             <div className="project__tools">
-              <Text style={Text.styles.medium}>Tools used: {tools}</Text>
+              <Text style={Text.styles.medium} dataId="tools">
+                Tools used: {tools}
+              </Text>
+            </div>
+            <div className="project__link">
+              <Text>
+                <Link to={project_link.url} isAnchor isExternal>
+                  {project_link.title}
+                </Link>
+              </Text>
             </div>
           </Tiles.Tile>
         </Tiles>

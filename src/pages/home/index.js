@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Element as ScrollElement } from 'react-scroll';
 
 import Text from '../../components/text';
 import Tiles from '../../components/tiles';
@@ -63,7 +62,7 @@ export default () => {
           </Text>
         </div>
 
-        <ScrollElement name="projects" className="page-heading">
+        <div className="page-heading">
           <Text
             element={Text.elements.h1}
             style={Text.styles.large}
@@ -71,7 +70,7 @@ export default () => {
           >
             {home.acf.heading}
           </Text>
-        </ScrollElement>
+        </div>
 
         <Tiles>
           {projects.map(({ slug, title, acf }) => {

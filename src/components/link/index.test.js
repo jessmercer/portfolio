@@ -47,4 +47,38 @@ describe('Components: Link', () => {
     });
     expect(wrapper.find('span[data-id="test"]')).toExist();
   });
+
+  it('renders anchor', () => {
+    const { wrapper } = setupTestWithString({
+      props: {
+        isAnchor: true
+      }
+    });
+    expect(wrapper.find('[data-qa="link"] a')).toHaveText('hey im a link');
+    expect(wrapper.find('[data-qa="link"] a')).toHaveProp(
+      'href',
+      requiredProps.to
+    );
+    expect(wrapper.find('[data-qa="link"] a')).toHaveClassName('link');
+  });
+
+  it('renders anchor with external link', () => {
+    const { wrapper } = setupTestWithString({
+      props: {
+        isAnchor: true,
+        isExternal: true
+      }
+    });
+    expect(wrapper.find('[data-qa="link"] a')).toHaveText('hey im a link');
+    expect(wrapper.find('[data-qa="link"] a')).toHaveProp(
+      'href',
+      requiredProps.to
+    );
+    expect(wrapper.find('[data-qa="link"] a')).toHaveProp('target', '_blank');
+    expect(wrapper.find('[data-qa="link"] a')).toHaveProp(
+      'rel',
+      'noopener noreferrer'
+    );
+    expect(wrapper.find('[data-qa="link"] a')).toHaveClassName('link');
+  });
 });

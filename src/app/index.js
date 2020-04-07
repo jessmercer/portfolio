@@ -5,6 +5,7 @@ import React from 'react';
 import thunk from 'redux-thunk';
 
 import Header from '../components/header';
+import Contact from '../pages/contact';
 import Home from '../pages/home';
 import Project from '../pages/project';
 
@@ -24,11 +25,7 @@ export default () => (
         <Header />
         <Route path={routes.home} exact component={Home} />
         <Route path={`${routes.project}/:slug`} component={Project} />
-        <Route
-          path={routes.contact}
-          exact
-          component={() => <div>contact hey</div>}
-        />
+        <Route path={routes.contact} exact component={Contact} />
       </div>
     </HashRouter>
   </Provider>
