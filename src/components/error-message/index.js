@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 import Text from '../text';
 
-import './index.css';
+import styles from './index.module.css';
 
 const ErrorMessage = ({ children }) => (
-  <div className="error-message" data-qa="error-message">
+  <div className={styles.errorMessage} data-qa="error-message">
     <Text color={Text.colors.red}>{children}</Text>
   </div>
 );

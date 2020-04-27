@@ -3,13 +3,13 @@ import React from 'react';
 import { setupTestProvider } from '../../setupTests';
 import Project from '.';
 
-import * as projectsActions from '../../actions/projects-actions';
+import * as projectsActions from '../../redux/project/actions';
 
 import {
   FETCH_PROJECTS,
   FETCH_PROJECTS_SUCCESS,
   FETCH_PROJECTS_ERROR
-} from '../../actions/projects-actions/types';
+} from '../../redux/project/actions/types';
 
 import projectsResponse from '../../test-resources/projects-response';
 import { routes } from '../../lib/constants';
@@ -135,13 +135,13 @@ describe('Pages: Project', () => {
 
       it('renders the created with text', () => {
         expect(wrapper.find('[data-id="created-width"]')).toHaveText(
-          projectResponse.created_with
+          `Created with: ${projectResponse.acf.created_with}`
         );
       });
 
       it('renders the tools text', () => {
         expect(wrapper.find('[data-id="tools"]')).toHaveText(
-          projectResponse.tools
+          `Tools used: ${projectResponse.acf.tools}`
         );
       });
 
@@ -150,6 +150,28 @@ describe('Pages: Project', () => {
           'href',
           projectResponse.acf.project_link.url
         );
+      });
+    });
+
+    describe('Missing data', () => {
+      it('does not render the link when does not exsist', () => {
+        const { wrapper } = setupTest({
+          prerender: ({ dispatch }) => {
+            dispatch({
+              type: FETCH_PROJECTS_SUCCESS,
+              data: [
+                {
+                  ...projectsResponse[0],
+                  acf: {
+                    ...projectsResponse[0].acf,
+                    project_link: null
+                  }
+                }
+              ]
+            });
+          }
+        });
+        expect(wrapper.find('a')).not.toExist();
       });
     });
   });

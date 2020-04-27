@@ -3,7 +3,7 @@ import {
   FETCH_HOME,
   FETCH_HOME_SUCCESS,
   FETCH_HOME_ERROR
-} from '../../actions/home-actions/types';
+} from '../actions/types';
 
 describe('Reducers: Home', () => {
   it('should return the initial state', () => {

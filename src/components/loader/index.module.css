@@ -1,4 +1,4 @@
-.loader-wrapper {
+.loaderWrapper {
   align-items: center;
   display: flex;
   height: calc(100vh - 106px);
@@ -10,7 +10,7 @@
   text-align: center;
 }
 
-.loader > .loader-dot {
+.loader > .loaderDot {
   -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
   animation: sk-bouncedelay 1.4s infinite ease-in-out both;
   background-color: #333;
@@ -20,12 +20,12 @@
   width: 25px;
 }
 
-.loader .loader-dot--1 {
+.loader .loaderDot1 {
   -webkit-animation-delay: -0.32s;
   animation-delay: -0.32s;
 }
 
-.loader .loader-dot--2 {
+.loader .loaderDot2 {
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s;
 }

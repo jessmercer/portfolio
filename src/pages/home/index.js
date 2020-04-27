@@ -9,12 +9,12 @@ import Loader from '../../components/loader';
 import ErrorMessage from '../../components/error-message';
 import Wrapper from '../../components/wrapper';
 
-import { requestHome } from '../../actions/home-actions';
-import { requestProjects } from '../../actions/projects-actions';
+import { requestHome } from '../../redux/home/actions';
+import { requestProjects } from '../../redux/project/actions';
 
 import { routes } from '../../lib/constants';
 
-import './index.css';
+import styles from './index.module.css';
 
 export default () => {
   const dispatch = useDispatch();
@@ -54,15 +54,15 @@ export default () => {
   }
 
   return (
-    <div className="home">
+    <div className={styles.home}>
       <Wrapper>
-        <div className="description">
+        <div className={styles.description}>
           <Text style={Text.styles.medium} dataId="description">
             {home.acf.description}
           </Text>
         </div>
 
-        <div className="page-heading">
+        <div className={styles.pageHeading}>
           <Text
             element={Text.elements.h1}
             style={Text.styles.large}
@@ -79,7 +79,7 @@ export default () => {
             return (
               <Tiles.Tile key={slug} dataId={slug}>
                 <Link to={`${routes.project}/${slug}`}>
-                  <div className="project__img">
+                  <div>
                     <Image
                       src={acf.image.sizes.medium_large}
                       alt={titleRendered}
@@ -91,7 +91,7 @@ export default () => {
                       ]}
                     />
                   </div>
-                  <div className="project__title">
+                  <div className={styles.projectTitle}>
                     <Text style={Text.styles.medium}>{titleRendered}</Text>
                   </div>
                 </Link>

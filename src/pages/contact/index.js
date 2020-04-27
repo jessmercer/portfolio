@@ -7,9 +7,9 @@ import Link from '../../components/link';
 import Text from '../../components/text';
 import Wrapper from '../../components/wrapper';
 
-import { requestContact } from '../../actions/contact-actions';
+import { requestContact } from '../../redux/contact/actions';
 
-import './index.css';
+import styles from './index.module.css';
 
 export default () => {
   const dispatch = useDispatch();
@@ -37,22 +37,22 @@ export default () => {
   }
 
   return (
-    <div className="contact">
+    <div className={styles.contact}>
       <Wrapper>
-        <div className="description">
+        <div className={styles.description}>
           <Text style={Text.styles.large} dataId="description">
             {contact.acf.description}
           </Text>
         </div>
-        <div className="contact-details">
-          <div className="number">
+        <div>
+          <div className={styles.number}>
             <Text style={Text.styles.medium} dataId="number">
               <Link to={`tel:${contact.acf.number}`} isAnchor>
                 {contact.acf.number}
               </Link>
             </Text>
           </div>
-          <div className="email">
+          <div className={styles.email}>
             <Text style={Text.styles.medium} dataId="email">
               <Link to={'mailto:' + contact.acf.email} isAnchor>
                 {contact.acf.email}

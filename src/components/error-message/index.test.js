@@ -10,7 +10,9 @@ const setupTest = setupTestComponent({
 describe('Components: ErrorMessage', () => {
   it('renders correct className on ErrorMessage', () => {
     const { wrapper } = setupTest();
-    expect(wrapper.find('[data-qa="error-message"]')).toHaveClassName('error-message');
+    expect(wrapper.find('[data-qa="error-message"]')).toHaveClassName(
+      'errorMessage'
+    );
   });
 
   it('renders an ErrorMessage with its children as a string', () => {

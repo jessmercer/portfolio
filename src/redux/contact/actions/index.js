@@ -1,4 +1,4 @@
-import { prependRequest } from '../../lib/constants';
+import { prependRequest } from '../../../lib/constants';
 
 import {
   FETCH_CONTACT,

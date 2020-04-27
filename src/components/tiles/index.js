@@ -1,16 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 
-import './index.css';
+import styles from './index.module.css';
 
 const Tile = ({ children, dataId }) => (
-  <div className="tile" data-qa="tile" data-id={dataId}>
+  <div className={styles.tile} data-qa="tile" data-id={dataId}>
     {children}
   </div>
 );
 
 const Tiles = ({ children }) => (
-  <div className="tiles" data-qa="tiles">
+  <div
+    className={cx(styles.tiles, {
+      [styles.isFullWidth]: !Array.isArray(children)
+    })}
+    data-qa="tiles"
+  >
     {children}
   </div>
 );

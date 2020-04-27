@@ -1,7 +1,7 @@
 .header {
   display: flex;
   align-items: center;
-  padding: 20px;
+  padding: 15px;
   background: #fff;
 }
 
@@ -9,12 +9,21 @@
   margin-bottom: 10px;
 }
 
+.nameContainer {
+  display: inline-block;
+}
+
+.name-container__copy {
+  margin: 0;
+}
+
 .nav {
   display: flex;
   justify-content: flex-end;
+  flex: 1;
 }
 
-.nav__link {
+.navLink {
   margin: 0 10px;
   cursor: pointer;
 }
@@ -27,12 +36,8 @@
   justify-content: flex-end;
 }
 
-@media (max-width: 767px) {
+@media (min-width: 768px) {
   .header {
-    padding: 15px;
-  }
-
-  .nav__link .text {
-    vertical-align: top;
+    padding: 20px;
   }
 }

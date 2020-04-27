@@ -4,7 +4,7 @@ import {
   FETCH_CONTACT,
   FETCH_CONTACT_SUCCESS,
   FETCH_CONTACT_ERROR
-} from '../../actions/contact-actions/types';
+} from '../actions/types';
 
 describe('Reducers: Contact', () => {
   it('should return the initial state', () => {

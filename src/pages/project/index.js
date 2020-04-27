@@ -10,9 +10,9 @@ import Text from '../../components/text';
 import Tiles from '../../components/tiles';
 import Wrapper from '../../components/wrapper';
 
-import { requestProjects } from '../../actions/projects-actions';
+import { requestProjects } from '../../redux/project/actions';
 
-import './index.css';
+import styles from './index.module.css';
 
 export default () => {
   const dispatch = useDispatch();
@@ -49,11 +49,11 @@ export default () => {
   const { sizes } = image;
 
   return (
-    <div className="project">
+    <div className={styles.project}>
       <Wrapper>
         <Tiles>
           <Tiles.Tile>
-            <div className="project__title">
+            <div className={styles.projectTitle}>
               <Text
                 element={Text.elements.h1}
                 style={Text.styles.large}
@@ -62,7 +62,7 @@ export default () => {
                 {titleRendered}
               </Text>
             </div>
-            <div className="project__img">
+            <div>
               <Image
                 src={sizes.medium_large}
                 alt={titleRendered}
@@ -78,23 +78,25 @@ export default () => {
                 ]}
               />
             </div>
-            <div className="project__created">
+            <div className={styles.projectCreated}>
               <Text style={Text.styles.medium} dataId="created-width">
                 Created with: {created_with}
               </Text>
             </div>
-            <div className="project__tools">
+            <div className={styles.projectTools}>
               <Text style={Text.styles.medium} dataId="tools">
                 Tools used: {tools}
               </Text>
             </div>
-            <div className="project__link">
-              <Text>
-                <Link to={project_link.url} isAnchor isExternal>
-                  {project_link.title}
-                </Link>
-              </Text>
-            </div>
+            {project_link && (
+              <div className={styles.projectLink}>
+                <Text>
+                  <Link to={project_link.url} isAnchor isExternal>
+                    {project_link.title}
+                  </Link>
+                </Text>
+              </div>
+            )}
           </Tiles.Tile>
         </Tiles>
       </Wrapper>

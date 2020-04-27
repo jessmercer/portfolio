@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
-import './index.css';
+import styles from './index.module.css';
 
 const Link = ({ children, to, dataId, isAnchor, isExternal }) => (
   <span data-qa="link" data-id={dataId}>
@@ -10,12 +10,12 @@ const Link = ({ children, to, dataId, isAnchor, isExternal }) => (
       <a
         href={to}
         {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
-        className="link"
+        className={styles.link}
       >
         {children}
       </a>
     ) : (
-      <ReactRouterLink className="link" to={to}>
+      <ReactRouterLink className={styles.link} to={to}>
         {children}
       </ReactRouterLink>
     )}

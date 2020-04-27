@@ -1,0 +1,36 @@
+.projectTitle {
+  margin-top: 0;
+  margin-bottom: 15px;
+  text-transform: capitalize;
+}
+
+.projectTools,
+.projectCreated,
+.projectLink {
+  margin-top: 15px;
+}
+
+.projectLink {
+  background: #000;
+  border: 1px solid #e6eaea;
+  max-width: 120px;
+  margin: 20px auto 0;
+  cursor: pointer;
+}
+
+.projectLink:hover {
+  background: #e6eaea;
+  border: 1px solid #000;
+  transition: all 0.5s;
+}
+
+.projectLink a {
+  color: #fff;
+  display: block;
+  padding: 10px 15px;
+}
+
+.projectLink a:hover {
+  color: #000;
+  transition: color 0.5s;
+}

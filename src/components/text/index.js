@@ -2,10 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import './index.css';
+import styles from './index.module.css';
 
 const Text = ({ children, element: Element, color, style, dataId }) => (
-  <Element className={cx('text', style, color)} data-qa="text" data-id={dataId}>
+  <Element
+    className={cx(styles.text, styles[style], styles[color])}
+    data-qa="text"
+    data-id={dataId}
+  >
     {children}
   </Element>
 );

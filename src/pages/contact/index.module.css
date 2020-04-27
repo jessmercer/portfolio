@@ -1,7 +1,8 @@
 .contact {
   text-align: center;
+  margin: 100px auto 0;
 }
 
-.contact-details .number {
+.number {
   margin-bottom: 20px;
 }

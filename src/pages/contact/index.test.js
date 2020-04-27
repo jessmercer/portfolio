@@ -2,17 +2,17 @@ import React from 'react';
 
 import { setupTestProvider } from '../../setupTests';
 import Contact from '.';
-import * as contactActions from '../../actions/contact-actions';
+import * as contactActions from '../../redux/contact/actions';
 
 import {
   FETCH_CONTACT,
   FETCH_CONTACT_SUCCESS,
   FETCH_CONTACT_ERROR
-} from '../../actions/contact-actions/types';
+} from '../../redux/contact/actions/types';
 
 import contactResponse from '../../test-resources/contact-response';
 
-import { routes } from '../../lib/constants';
+// import { routes } from '../../lib/constants';
 
 jest.spyOn(contactActions, 'requestContact').mockReturnValue(jest.fn());
 

@@ -1,0 +1,36 @@
+.tiles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.tile {
+  background: #fff;
+  margin: 20px 0;
+  padding: 20px;
+  text-align: center;
+  flex: 100%;
+  max-width: initial;
+}
+
+.tiles.isFullWidth > * {
+  flex-basis: initial;
+  max-width: 1000px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .tile {
+    flex-basis: calc(44% - 40px);
+    max-width: calc(44% - 40px);
+    margin: 20px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .tile {
+    flex-basis: calc(30% - 40px);
+    max-width: calc(30% - 40px);
+  }
+}

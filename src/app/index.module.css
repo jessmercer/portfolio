@@ -7,4 +7,5 @@ body {
 .body {
   max-width: 1800px;
   margin: auto;
+  position: relative;
 }
