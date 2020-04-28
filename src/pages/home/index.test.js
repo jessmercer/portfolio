@@ -20,6 +20,7 @@ import { routes } from '../../lib/constants';
 
 jest.spyOn(homeActions, 'requestHome').mockReturnValue(jest.fn());
 jest.spyOn(projectsActions, 'requestProjects').mockReturnValue(jest.fn());
+jest.spyOn(projectsActions, 'fetchProjectsReset').mockReturnValue(jest.fn());
 
 const setupTest = setupTestProvider({
   render: () => <Home />
@@ -126,6 +127,12 @@ describe('Pages: Home', () => {
     it('should call requestProjects', () => {
       setupTest();
       expect(projectsActions.requestProjects).toHaveBeenCalled();
+    });
+
+    it('should call fetchProjectsReset when the page unmounts', () => {
+      const { wrapper } = setupTestSuccess();
+      wrapper.unmount();
+      expect(projectsActions.fetchProjectsReset).toHaveBeenCalled();
     });
   });
 

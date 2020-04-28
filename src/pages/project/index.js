@@ -10,7 +10,10 @@ import Text from '../../components/text';
 import Tiles from '../../components/tiles';
 import Wrapper from '../../components/wrapper';
 
-import { requestProjects } from '../../redux/project/actions';
+import {
+  requestProjects,
+  fetchProjectsReset
+} from '../../redux/project/actions';
 
 import styles from './index.module.css';
 
@@ -28,6 +31,13 @@ export default () => {
   useEffect(() => {
     dispatch(requestProjects(slug));
   }, [dispatch, slug]);
+
+  useEffect(
+    () => () => {
+      dispatch(fetchProjectsReset());
+    },
+    [dispatch]
+  );
 
   if (
     hasProjectsError ||

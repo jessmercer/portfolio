@@ -10,7 +10,10 @@ import ErrorMessage from '../../components/error-message';
 import Wrapper from '../../components/wrapper';
 
 import { requestHome } from '../../redux/home/actions';
-import { requestProjects } from '../../redux/project/actions';
+import {
+  requestProjects,
+  fetchProjectsReset
+} from '../../redux/project/actions';
 
 import { routes } from '../../lib/constants';
 
@@ -35,6 +38,13 @@ export default () => {
     dispatch(requestHome());
     dispatch(requestProjects());
   }, [dispatch]);
+
+  useEffect(
+    () => () => {
+      dispatch(fetchProjectsReset());
+    },
+    [dispatch]
+  );
 
   if (hasHomeError || hasProjectsError) {
     return (

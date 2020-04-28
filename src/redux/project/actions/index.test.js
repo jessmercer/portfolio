@@ -5,19 +5,20 @@ import thunk from 'redux-thunk';
 import {
   FETCH_PROJECTS,
   FETCH_PROJECTS_SUCCESS,
-  FETCH_PROJECTS_ERROR
+  FETCH_PROJECTS_ERROR,
+  FETCH_PROJECTS_RESET
 } from './types';
 
-import { requestProjects, getRequestProjectsApi } from '.';
+import { requestProjects, getRequestProjectsApi, fetchProjectsReset } from '.';
 
 describe('Actions: projects', () => {
+  const middlewares = [thunk];
+  const mockStore = configureMockStore(middlewares);
+
   describe('requestProjects', () => {
     afterEach(() => {
       fetchMock.restore();
     });
-
-    const middlewares = [thunk];
-    const mockStore = configureMockStore(middlewares);
 
     it('creates FETCH_PROJECTS_SUCCESS when fetching projects is a success', () => {
       fetchMock.getOnce(getRequestProjectsApi(), {
@@ -65,6 +66,14 @@ describe('Actions: projects', () => {
           { type: FETCH_PROJECTS_ERROR }
         ]);
       });
+    });
+  });
+
+  describe('fetchProjectsReset', () => {
+    it('creates FETCH_PROJECTS_RESET', () => {
+      const store = mockStore();
+      store.dispatch(fetchProjectsReset());
+      expect(store.getActions()).toEqual([{ type: FETCH_PROJECTS_RESET }]);
     });
   });
 });

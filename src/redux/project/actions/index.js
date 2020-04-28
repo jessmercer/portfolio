@@ -2,7 +2,8 @@ import { prependRequest } from '../../../lib/constants';
 import {
   FETCH_PROJECTS,
   FETCH_PROJECTS_SUCCESS,
-  FETCH_PROJECTS_ERROR
+  FETCH_PROJECTS_ERROR,
+  FETCH_PROJECTS_RESET
 } from './types';
 
 function fetchProjects() {
@@ -21,6 +22,12 @@ function fetchProjectsSuccess(data) {
 function fetchProjectsError() {
   return {
     type: FETCH_PROJECTS_ERROR
+  };
+}
+
+export function fetchProjectsReset() {
+  return {
+    type: FETCH_PROJECTS_RESET
   };
 }
 

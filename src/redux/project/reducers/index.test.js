@@ -2,7 +2,8 @@ import projectsReducer, { initialState } from '.';
 import {
   FETCH_PROJECTS,
   FETCH_PROJECTS_SUCCESS,
-  FETCH_PROJECTS_ERROR
+  FETCH_PROJECTS_ERROR,
+  FETCH_PROJECTS_RESET
 } from '../actions/types';
 
 describe('Reducers: Projects', () => {
@@ -46,6 +47,16 @@ describe('Reducers: Projects', () => {
       isInitial: false,
       isPending: false,
       hasError: true
+    });
+  });
+
+  it('should handle FETCH_PROJECTS_RESET', () => {
+    expect(
+      projectsReducer(undefined, {
+        type: FETCH_PROJECTS_RESET
+      })
+    ).toEqual({
+      ...initialState
     });
   });
 });

@@ -15,6 +15,7 @@ import projectsResponse from '../../test-resources/projects-response';
 import { routes } from '../../lib/constants';
 
 jest.spyOn(projectsActions, 'requestProjects').mockReturnValue(jest.fn());
+jest.spyOn(projectsActions, 'fetchProjectsReset').mockReturnValue(jest.fn());
 
 const setupTest = setupTestProvider({
   render: () => <Project />
@@ -86,6 +87,12 @@ describe('Pages: Project', () => {
         initialEntries: [`${routes.project}/${slug}`]
       });
       expect(projectsActions.requestProjects).toHaveBeenCalledWith(slug);
+    });
+
+    it('should call fetchProjectsReset when the page unmounts', () => {
+      const { wrapper } = setupTestSuccess();
+      wrapper.unmount();
+      expect(projectsActions.fetchProjectsReset).toHaveBeenCalled();
     });
   });
 

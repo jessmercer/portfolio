@@ -1,7 +1,8 @@
 import {
   FETCH_PROJECTS,
   FETCH_PROJECTS_SUCCESS,
-  FETCH_PROJECTS_ERROR
+  FETCH_PROJECTS_ERROR,
+  FETCH_PROJECTS_RESET
 } from '../actions/types';
 
 export const initialState = {
@@ -32,6 +33,11 @@ function projects(state = initialState, { type, data }) {
         isInitial: false,
         isPending: false,
         hasError: true
+      };
+    case FETCH_PROJECTS_RESET:
+      return {
+        ...state,
+        ...initialState
       };
     default:
       return state;
