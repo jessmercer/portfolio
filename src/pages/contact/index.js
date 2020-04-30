@@ -8,17 +8,22 @@ import Text from '../../components/text';
 import Wrapper from '../../components/wrapper';
 
 import { requestContact } from '../../redux/contact/actions';
+import contactSelectors from '../../redux/contact/selectors';
 
 import styles from './index.module.css';
 
 export default () => {
   const dispatch = useDispatch();
+
   const {
     isInitial: isContactInitial,
     isPending: isContactPending,
-    hasError: hasContactError,
-    data: contact
-  } = useSelector(state => state.contact);
+    hasError: hasContactError
+  } = useSelector(contactSelectors.getPredicate);
+
+  const { description, number, email } = useSelector(
+    contactSelectors.getSimple
+  );
 
   useEffect(() => {
     dispatch(requestContact());
@@ -41,21 +46,21 @@ export default () => {
       <Wrapper>
         <div className={styles.description}>
           <Text style={Text.styles.large} dataId="description">
-            {contact.acf.description}
+            {description}
           </Text>
         </div>
         <div>
           <div className={styles.number}>
             <Text style={Text.styles.medium} dataId="number">
-              <Link to={`tel:${contact.acf.number}`} isAnchor>
-                {contact.acf.number}
+              <Link to={`tel:${number}`} isAnchor>
+                {number}
               </Link>
             </Text>
           </div>
           <div className={styles.email}>
             <Text style={Text.styles.medium} dataId="email">
-              <Link to={'mailto:' + contact.acf.email} isAnchor>
-                {contact.acf.email}
+              <Link to={'mailto:' + email} isAnchor>
+                {email}
               </Link>
             </Text>
           </div>

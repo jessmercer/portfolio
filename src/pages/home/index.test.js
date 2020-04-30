@@ -74,15 +74,27 @@ describe('Pages: Home', () => {
       expect(wrapper.find('[data-qa="loader"]')).toExist();
     });
 
+    it('renders the loader when projects is initial', () => {
+      const { wrapper } = setupTest({
+        prerender: ({ dispatch }) => {
+          dispatch({
+            type: FETCH_HOME_SUCCESS,
+            data: homeResponse
+          });
+        }
+      });
+      expect(wrapper.find('[data-qa="loader"]')).toExist();
+    });
+
     it('renders the loader when projects is pending', () => {
       const { wrapper } = setupTest({
         prerender: ({ dispatch }) => {
           dispatch({
-            type: FETCH_HOME
+            type: FETCH_HOME_SUCCESS,
+            data: homeResponse
           });
           dispatch({
-            type: FETCH_PROJECTS,
-            data: projectsResponse
+            type: FETCH_PROJECTS
           });
         }
       });
