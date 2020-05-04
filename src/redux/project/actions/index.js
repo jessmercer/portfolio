@@ -1,4 +1,4 @@
-import { prependRequest } from '../../../lib/constants';
+import { api } from '../../../lib/constants';
 import {
   FETCH_PROJECTS,
   FETCH_PROJECTS_SUCCESS,
@@ -31,7 +31,7 @@ export function fetchProjectsReset() {
   };
 }
 
-const requestProjectsApi = `${prependRequest}http://www.boggonbone.co.uk/api/wp-json/wp/v2/project?_fields=title,acf,slug`;
+const requestProjectsApi = `${api}/jess_project?_fields=title,acf,slug`;
 
 export const getRequestProjectsApi = slug =>
   slug ? `${requestProjectsApi}&slug=${slug}` : requestProjectsApi;

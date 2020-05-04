@@ -1,4 +1,4 @@
-import { prependRequest } from '../../../lib/constants';
+import { api } from '../../../lib/constants';
 import { FETCH_HOME, FETCH_HOME_SUCCESS, FETCH_HOME_ERROR } from './types';
 
 function fetchHome() {
@@ -20,7 +20,7 @@ function fetchHomeError() {
   };
 }
 
-export const requestHomeApi = `${prependRequest}http://www.boggonbone.co.uk/api/wp-json/wp/v2/pages?slug=home&_fields=acf`;
+export const requestHomeApi = `${api}/pages?slug=jess-home&_fields=acf`;
 
 export function requestHome() {
   return dispatch => {

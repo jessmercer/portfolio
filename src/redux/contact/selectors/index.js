@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 
 const getPredicate = createSelector(
   state => state?.contact,
-  ({ isInitial, isPending, hasError }) => ({
+  ({ isInitial = false, isPending = false, hasError = false } = {}) => ({
     isInitial,
     isPending,
     hasError

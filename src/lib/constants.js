@@ -4,7 +4,4 @@ export const routes = {
   contact: '/contact'
 };
 
-export const prependRequest =
-  window.location.hostname === 'localhost'
-    ? ''
-    : 'https://cors-anywhere.herokuapp.com/';
+export const api = 'https://boggon.uk/index.php/wp-json/wp/v2';
