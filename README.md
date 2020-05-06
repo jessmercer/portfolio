@@ -1,4 +1,4 @@
-Portfolio
+# Portfolio
 
 A React app showcasing the websites and apps I have helped build. View app here: https://jessmercer.github.io/portfolio/
 
