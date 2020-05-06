@@ -1,9 +1,9 @@
-import contactSelectors from '.';
+import homeSelectors from '.';
 
-describe('Selectors: Contact', () => {
+describe('Selectors: Home', () => {
   describe('getPredicate', () => {
     it('should return the default state', () => {
-      expect(contactSelectors.getPredicate()).toEqual({
+      expect(homeSelectors.getPredicate()).toEqual({
         hasError: false,
         isInitial: false,
         isPending: false
@@ -12,8 +12,8 @@ describe('Selectors: Contact', () => {
 
     it('should return the state', () => {
       expect(
-        contactSelectors.getPredicate({
-          contact: {
+        homeSelectors.getPredicate({
+          home: {
             hasError: 'hasError',
             isInitial: 'isInitial',
             isPending: 'isPending'
@@ -30,12 +30,12 @@ describe('Selectors: Contact', () => {
   describe('getSimple', () => {
     describe('description', () => {
       it('should return the default state', () => {
-        expect(contactSelectors.getSimple().description).toBeUndefined();
+        expect(homeSelectors.getSimple().description).toBeUndefined();
       });
       it('should return the state', () => {
         expect(
-          contactSelectors.getSimple({
-            contact: {
+          homeSelectors.getSimple({
+            home: {
               data: {
                 acf: {
                   description: 'description'
@@ -47,41 +47,22 @@ describe('Selectors: Contact', () => {
       });
     });
 
-    describe('number', () => {
+    describe('heading', () => {
       it('should return the default state', () => {
-        expect(contactSelectors.getSimple().number).toBeUndefined();
+        expect(homeSelectors.getSimple().heading).toBeUndefined();
       });
       it('should return the state', () => {
         expect(
-          contactSelectors.getSimple({
-            contact: {
+          homeSelectors.getSimple({
+            home: {
               data: {
                 acf: {
-                  number: 'number'
+                  heading: 'heading'
                 }
               }
             }
-          }).number
-        ).toBe('number');
-      });
-    });
-
-    describe('email', () => {
-      it('should return the default state', () => {
-        expect(contactSelectors.getSimple().email).toBeUndefined();
-      });
-      it('should return the state', () => {
-        expect(
-          contactSelectors.getSimple({
-            contact: {
-              data: {
-                acf: {
-                  email: 'email'
-                }
-              }
-            }
-          }).email
-        ).toBe('email');
+          }).heading
+        ).toBe('heading');
       });
     });
   });

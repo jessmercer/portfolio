@@ -13,7 +13,8 @@ import Wrapper from '../../components/wrapper';
 import {
   requestProjects,
   fetchProjectsReset
-} from '../../redux/project/actions';
+} from '../../redux/projects/actions';
+import projectsSelectors from '../../redux/projects/selectors';
 
 import styles from './index.module.css';
 
@@ -22,11 +23,13 @@ export default () => {
   const {
     isInitial: isProjectsInitial,
     isPending: isProjectsPending,
-    hasError: hasProjectsError,
-    data
-  } = useSelector(state => state.projects);
+    hasError: hasProjectsError
+  } = useSelector(projectsSelectors.getPredicate);
+
   const { slug } = useParams();
-  const project = data[0];
+  const projects = useSelector(projectsSelectors.getProjects);
+  console.log({ projects });
+  const project = projects[0];
 
   useEffect(() => {
     dispatch(requestProjects(slug));
@@ -56,6 +59,7 @@ export default () => {
 
   const titleRendered = project.title.rendered;
   const { image, tools, created_with, project_link } = project.acf;
+
   const { sizes } = image;
 
   return (

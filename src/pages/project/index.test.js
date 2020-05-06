@@ -3,13 +3,13 @@ import React from 'react';
 import { setupTestProvider } from '../../setupTests';
 import Project from '.';
 
-import * as projectsActions from '../../redux/project/actions';
+import * as projectsActions from '../../redux/projects/actions';
 
 import {
   FETCH_PROJECTS,
   FETCH_PROJECTS_SUCCESS,
   FETCH_PROJECTS_ERROR
-} from '../../redux/project/actions/types';
+} from '../../redux/projects/actions/types';
 
 import projectsResponse from '../../test-resources/projects-response';
 import { routes } from '../../lib/constants';

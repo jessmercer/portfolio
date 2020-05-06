@@ -11,10 +11,11 @@ import Wrapper from '../../components/wrapper';
 
 import { requestHome } from '../../redux/home/actions';
 import homeSelectors from '../../redux/home/selectors';
+import projectsSelectors from '../../redux/projects/selectors';
 import {
   requestProjects,
   fetchProjectsReset
-} from '../../redux/project/actions';
+} from '../../redux/projects/actions';
 
 import { routes } from '../../lib/constants';
 
@@ -32,11 +33,12 @@ export default () => {
   const {
     isInitial: isProjectsInitial,
     isPending: isProjectsPending,
-    hasError: hasProjectsError,
-    data: projects
-  } = useSelector(state => state.projects);
+    hasError: hasProjectsError
+  } = useSelector(projectsSelectors.getPredicate);
 
   const { description, heading } = useSelector(homeSelectors.getSimple);
+
+  const projects = useSelector(projectsSelectors.getProjects);
 
   useEffect(() => {
     dispatch(requestHome());
