@@ -37,12 +37,7 @@
     "comma-dangle": 0,
     "max-len": 0,
     "import/extensions": 0,
-    "import/first": [
-      "error",
-      {
-        "absolute-first": "false"
-      }
-    ],
+    "import/imports-first": ["warn", "DISABLE-absolute-first"],
     "import/no-extraneous-dependencies": [
       "error",
       {
