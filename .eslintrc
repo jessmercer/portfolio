@@ -40,7 +40,7 @@
     "import/first": [
       "error",
       {
-        "absolute-first": false
+        "absolute-first": "false"
       }
     ],
     "import/no-extraneous-dependencies": [
