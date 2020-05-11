@@ -37,10 +37,15 @@
     "comma-dangle": 0,
     "max-len": 0,
     "import/extensions": 0,
-    "import/first": [
+    "import/order": [
       "error",
       {
-        "absolute-first": false
+        "pathGroups": [
+          {
+            "pattern": "~/**",
+            "group": "external"
+          }
+        ]
       }
     ],
     "import/no-extraneous-dependencies": [
