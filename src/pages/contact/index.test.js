@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { setupTestProvider } from '../../setupTests';
-import Contact from '.';
 import * as contactActions from '../../redux/contact/actions';
 
 import {
@@ -11,6 +10,7 @@ import {
 } from '../../redux/contact/actions/types';
 
 import contactResponse from '../../test-resources/contact-response';
+import Contact from '.';
 
 // import { routes } from '../../lib/constants';
 

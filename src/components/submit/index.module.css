@@ -1,0 +1,13 @@
+.submit {
+  background: #000;
+  border: 1px solid #e6eaea;
+  color: #fff;
+  font-family: "Inconsolata", monospace;
+  font-size: 16px;
+  margin: 20px 0;
+  padding: 10px 15px;
+}
+
+.isDisabled {
+  opacity: 0.1;
+}

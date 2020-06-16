@@ -1,0 +1,7 @@
+.textarea {
+  padding: 20px;
+  flex: 1;
+  min-width: 300px;
+  max-width: 300px;
+  max-height: 200px;
+}
