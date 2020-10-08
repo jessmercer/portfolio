@@ -10,8 +10,14 @@ import Link from '../../components/link';
 import Text from '../../components/text';
 import Wrapper from '../../components/wrapper';
 import Submit from '../../components/submit';
+import isEmail from '../../lib/validation/is-email';
+import isPhoneNumber from '../../lib/validation/is-phone-number';
+import isRequired from '../../lib/validation/is-required';
 
-import { requestContact } from '../../redux/contact/actions';
+import {
+  requestContact,
+  postMessageRequest
+} from '../../redux/contact/actions';
 import contactSelectors from '../../redux/contact/selectors';
 
 import styles from './index.module.css';
@@ -71,20 +77,46 @@ export default () => {
         </div>
 
         <Form
-          onSubmit={(values) => console.log(values)}
+          onSubmit={(values) => dispatch(postMessageRequest(values))}
           render={(formProps) => (
             <form onSubmit={formProps.handleSubmit} className={styles.form}>
               <div className={styles.formInput}>
                 <Field
                   name="fullname"
-                  validate={(value) => (value ? false : 'Name required')}
+                  validate={(value) => isRequired(value, 'Name is required')}
                 >
                   {({
                     meta: { valid, invalid, submitFailed },
                     input: { onChange, name }
                   }) => (
                     <Fragment>
-                      <label htmlFor={name}>Full Name*</label>
+                      <label htmlFor={name}>
+                        Full Name*
+                      </label>
+                      <TextInput
+                        isValid={valid}
+                        isInvalid={invalid && submitFailed}
+                        onChange={onChange}
+                        name={name}
+                      />
+                    </Fragment>
+                  )}
+                </Field>
+              </div>
+              <div className={styles.formInput}>
+                <Field
+                  name="email"
+                  validate={(value) =>
+                    isRequired(value, 'Email is required') ||
+                    isEmail(value, 'Please enter a valid email')
+                  }
+                >
+                  {({
+                    meta: { valid, invalid, submitFailed },
+                    input: { onChange, name }
+                  }) => (
+                    <Fragment>
+                      <label htmlFor={name}>Email*</label>
                       <TextInput
                         isValid={valid}
                         isInvalid={invalid && submitFailed}
@@ -98,15 +130,17 @@ export default () => {
               </div>
               <div className={styles.formInput}>
                 <Field
-                  name="email"
-                  validate={(value) => (value ? false : 'Email required')}
+                  name="number"
+                  validate={(value) =>
+                    isPhoneNumber(value, 'Please enter a valid number')
+                  }
                 >
                   {({
                     meta: { valid, invalid, submitFailed },
                     input: { onChange, name }
                   }) => (
                     <Fragment>
-                      <label htmlFor={name}>Email*</label>
+                      <label htmlFor={name}>Number</label>
                       <TextInput
                         isValid={valid}
                         isInvalid={invalid && submitFailed}

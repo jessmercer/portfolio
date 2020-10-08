@@ -25,7 +25,6 @@ TextInput.types = {
 };
 
 TextInput.propTypes = {
-  value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.oneOf(Object.values(TextInput.types)),

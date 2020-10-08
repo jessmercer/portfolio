@@ -1,10 +1,13 @@
-import { api } from '../../../lib/constants';
+import { api } from "../../../lib/constants";
 
 import {
   FETCH_CONTACT,
   FETCH_CONTACT_SUCCESS,
-  FETCH_CONTACT_ERROR
-} from './types';
+  FETCH_CONTACT_ERROR,
+  POST_MESSAGE,
+  POST_MESSAGE_SUCCESS,
+  POST_MESSAGE_ERROR
+} from "./types";
 
 function fetchContact() {
   return {
@@ -28,13 +31,56 @@ function fetchContactError() {
 export const requestContactApi = `${api}/pages?slug=jess-contact&_fields=acf`;
 
 export function requestContact() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(fetchContact());
     return fetch(requestContactApi)
-      .then(response => response.json())
+      .then((response) => response.json())
       .then(
-        data => dispatch(fetchContactSuccess(data)),
+        (data) => dispatch(fetchContactSuccess(data)),
         () => dispatch(fetchContactError())
+      );
+  };
+}
+
+function postMessage() {
+  return {
+    type: POST_MESSAGE
+  };
+}
+
+function postMessageSuccess(data) {
+  return {
+    type: POST_MESSAGE_SUCCESS,
+    data
+  };
+}
+
+function postMessageError() {
+  return {
+    type: POST_MESSAGE_ERROR
+  };
+}
+
+export const authApi = `${api}/jess_message`;
+export const postMessageApi = `${api}/jwt-auth/v1/token`;
+
+export function postMessageRequest(values) {
+  return (dispatch) => {
+    dispatch(postMessage());
+    return fetch(authApi)
+      .then(({ token }) =>
+        fetch(postMessageApi, {
+          method: "POST",
+          body: JSON.stringify(values),
+          headers: {
+            Authorization: `Bearer: ${token}`
+          }
+        })
+      )
+      .then((response) => response.json())
+      .then(
+        (data) => dispatch(postMessageSuccess(data)),
+        () => dispatch(postMessageError())
       );
   };
 }

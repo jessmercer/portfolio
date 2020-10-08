@@ -95,5 +95,9 @@ describe('Pages: Contact', () => {
         contactResponse[0].acf.email
       );
     });
+
+    it('renders the correct form', () => {
+      expect(wrapper.find('button[type="submit"]')).toHaveText('Submit');
+    });
   });
 });

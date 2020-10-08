@@ -17,7 +17,6 @@ const Submit = ({ children, isDisabled }) => (
 );
 
 Submit.propTypes = {
-  value: PropTypes.string.isRequired,
   children: PropTypes.string.isRequired,
   isDisabled: PropTypes.bool
 };
