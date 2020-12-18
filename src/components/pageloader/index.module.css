@@ -1,0 +1,6 @@
+.pageLoaderWrapper {
+  align-items: center;
+  display: flex;
+  height: calc(100vh - 106px);
+  justify-content: center;
+}

@@ -1,0 +1,43 @@
+.header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: #fff;
+}
+
+.name {
+  margin-bottom: 10px;
+}
+
+.nameContainer {
+  display: inline-block;
+}
+
+.name-container__copy {
+  margin: 0;
+}
+
+.nav {
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.navLink {
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.nav-list {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+@media (min-width: 768px) {
+  .header {
+    padding: 20px;
+  }
+}

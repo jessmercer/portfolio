@@ -1,0 +1,21 @@
+.textInput {
+  padding: 20px;
+  flex: 1;
+  min-width: 300px;
+}
+
+.isValid {
+  border: 1px solid green;
+}
+
+.isInvalid {
+  border: 1px solid red;
+}
+
+@media (max-width: 768px) {
+  .textInput {
+    flex: 100%;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}

@@ -1,0 +1,9 @@
+.wrapper {
+  padding: 15px;
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    padding: 20px;
+  }
+}
