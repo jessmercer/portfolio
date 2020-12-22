@@ -114,28 +114,4 @@ describe('Components: Button', () => {
       expect(wrapper.find('[data-qa="button"]')).toExist();
     }
   );
-
-  // it('it should render the loader and loading classes when isLoading prop is passed', () => {
-  //   const { wrapper } = setupTest({
-  //     props: {
-  //       isLoading: true
-  //     }
-  //   });
-  //   expect(wrapper.find('[data-qa="loader"]')).toExist();
-  //   expect(wrapper.find('[data-qa="submit-text"]')).toHaveClassName(
-  //     'isLoading'
-  //   );
-  // });
-
-  // it('it should not render the loader and loading classes when isLoading prop is not passed', () => {
-  //   const { wrapper } = setupTest({
-  //     props: {
-  //       isLoading: false
-  //     }
-  //   });
-  //   expect(wrapper.find('[data-qa="loader"]')).not.toExist();
-  //   expect(wrapper.find('[data-qa="submit-text"]')).not.toHaveClassName(
-  //     'isLoading'
-  //   );
-  // });
 });

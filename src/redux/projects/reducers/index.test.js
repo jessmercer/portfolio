@@ -1,10 +1,10 @@
-import projectsReducer, { initialState } from '.';
 import {
   FETCH_PROJECTS,
   FETCH_PROJECTS_SUCCESS,
   FETCH_PROJECTS_ERROR,
   FETCH_PROJECTS_RESET
 } from '../actions/types';
+import projectsReducer, { initialState } from '.';
 
 describe('Reducers: Projects', () => {
   it('should return the initial state', () => {

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { setupTestProvider } from '../../setupTests';
-import Project from '.';
 
 import * as projectsActions from '../../redux/projects/actions';
 
@@ -13,6 +12,7 @@ import {
 
 import projectsResponse from '../../test-resources/projects-response';
 import { routes } from '../../lib/constants';
+import Project from '.';
 
 jest.spyOn(projectsActions, 'requestProjects').mockReturnValue(jest.fn());
 jest.spyOn(projectsActions, 'fetchProjectsReset').mockReturnValue(jest.fn());
