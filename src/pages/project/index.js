@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import React from 'react';
 
 import ErrorMessage from '../../components/error-message';
 import Image from '../../components/image';
@@ -10,42 +8,15 @@ import Text from '../../components/text';
 import Tiles from '../../components/tiles';
 import Wrapper from '../../components/wrapper';
 
-import {
-  requestProjects,
-  fetchProjectsReset
-} from '../../redux/projects/actions';
-import projectsSelectors from '../../redux/projects/selectors';
+import useQuery, { queryKeys } from '../../lib/hooks/use-query';
 
 import styles from './index.module.css';
 
 export default () => {
-  const dispatch = useDispatch();
-  const {
-    isInitial: isProjectsInitial,
-    isPending: isProjectsPending,
-    hasError: hasProjectsError
-  } = useSelector(projectsSelectors.getPredicate);
+  const projectQuery = useQuery(queryKeys.project);
+  const project = projectQuery?.data?.[0] || [];
 
-  const { slug } = useParams();
-  const projects = useSelector(projectsSelectors.getProjects);
-  console.log({ projects });
-  const project = projects[0];
-
-  useEffect(() => {
-    dispatch(requestProjects(slug));
-  }, [dispatch, slug]);
-
-  useEffect(
-    () => () => {
-      dispatch(fetchProjectsReset());
-    },
-    [dispatch]
-  );
-
-  if (
-    hasProjectsError ||
-    (!project && !isProjectsInitial && !isProjectsPending)
-  ) {
+  if (projectQuery.isError || (!project && !projectQuery.isLoading)) {
     return (
       <ErrorMessage>
         Oops, something went wrong with loading the project.
@@ -53,7 +24,7 @@ export default () => {
     );
   }
 
-  if (isProjectsInitial || isProjectsPending) {
+  if (projectQuery.isLoading || projectQuery.isFetching) {
     return <PageLoader />;
   }
 

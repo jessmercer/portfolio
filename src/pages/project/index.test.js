@@ -1,35 +1,45 @@
 import React from 'react';
 
 import { setupTestProvider } from '../../setupTests';
+import { setupWorker, rest } from 'msw';
+import useQuery, { queryKeys } from '../../lib/hooks/use-query';
 
-import * as projectsActions from '../../redux/projects/actions';
+// import * as projectsActions from '../../redux/projects/actions';
 
-import {
-  FETCH_PROJECTS,
-  FETCH_PROJECTS_SUCCESS,
-  FETCH_PROJECTS_ERROR
-} from '../../redux/projects/actions/types';
+// import {
+//   FETCH_PROJECTS,
+//   FETCH_PROJECTS_SUCCESS,
+//   FETCH_PROJECTS_ERROR
+// } from '../../redux/projects/actions/types';
 
 import projectsResponse from '../../test-resources/projects-response';
 import { routes } from '../../lib/constants';
 import Project from '.';
 
-jest.spyOn(projectsActions, 'requestProjects').mockReturnValue(jest.fn());
-jest.spyOn(projectsActions, 'fetchProjectsReset').mockReturnValue(jest.fn());
+// jest.spyOn(projectsActions, 'requestProjects').mockReturnValue(jest.fn());
+// jest.spyOn(projectsActions, 'fetchProjectsReset').mockReturnValue(jest.fn());
 
-const setupTest = setupTestProvider({
-  render: () => <Project />
-});
+const worker = setupWorker(
+  rest.get(useQuery(queryKeys.project), (req, res, ctx) => {
+    const { project } = req.body;
+    return res(ctx.delay(500), ctx.status(200), ctx.json(project));
+  })
+);
+worker.start();
 
-const setupTestSuccess = setupTestProvider({
-  render: () => <Project />,
-  prerender: ({ dispatch }) => {
-    dispatch({
-      type: FETCH_PROJECTS_SUCCESS,
-      data: projectsResponse
-    });
-  }
-});
+// const setupTest = setupTestProvider({
+//   render: () => <Project />
+// });
+
+// const setupTestSuccess = setupTestProvider({
+//   render: () => <Project />,
+//   prerender: ({ dispatch }) => {
+//     dispatch({
+//       type: FETCH_PROJECTS_SUCCESS,
+//       data: projectsResponse
+//     });
+//   }
+// });
 
 describe('Pages: Project', () => {
   describe('Error', () => {

@@ -1,8 +1,6 @@
 import { HashRouter, Route } from 'react-router-dom';
-import { createStore, compose, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import React from 'react';
-import thunk from 'redux-thunk';
 
 import Header from '../components/header';
 import Contact from '../pages/contact';
@@ -10,16 +8,13 @@ import Home from '../pages/home';
 import Project from '../pages/project';
 
 import { routes } from '../lib/constants';
-import rootReducer from '../redux/reducers';
 
 import styles from './index.module.css';
 
-const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const store = createStore(rootReducer, composeEnhancer(applyMiddleware(thunk)));
+const queryClient = new QueryClient();
 
 export default () => (
-  <Provider store={store}>
+  <QueryClientProvider client={queryClient}>
     <HashRouter>
       <div className={styles.body}>
         <Header />
@@ -28,5 +23,5 @@ export default () => (
         <Route path={routes.contact} exact component={Contact} />
       </div>
     </HashRouter>
-  </Provider>
+  </QueryClientProvider>
 );

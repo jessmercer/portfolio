@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Form, Field } from 'react-final-form';
 
 import ErrorMessage from '../../components/error-message';
@@ -12,23 +11,16 @@ import isEmail from '../../lib/validation/is-email';
 import isPhoneNumber from '../../lib/validation/is-phone-number';
 import isRequired from '../../lib/validation/is-required';
 
-import { postMessageRequest } from '../../redux/contact/actions';
-import contactSelectors from '../../redux/contact/selectors';
+import useMutation, { mutationKeys } from '../../lib/hooks/use-mutation';
 
 import styles from './index.module.css';
 
 export default () => {
-  const dispatch = useDispatch();
-
-  const {
-    isPending: isContactPending,
-    hasError: hasContactError,
-    isSuccess: isContactSuccess
-  } = useSelector(contactSelectors.getPredicate);
+  const contactMutation = useMutation(mutationKeys.contact);
 
   const [isResubmitting, setIsResubmitting] = useState(false);
 
-  if (hasContactError) {
+  if (contactMutation.isError) {
     return (
       <ErrorMessage>
         Oops, something went wrong with loading the contact form.
@@ -39,16 +31,14 @@ export default () => {
   return (
     <div className={styles.contact}>
       <Wrapper>
-        {!isContactSuccess || isResubmitting ? (
+        {!contactMutation.isSuccess || isResubmitting ? (
           <Form
             onSubmit={(values) => {
-              dispatch(
-                postMessageRequest({
-                  title: values.email,
-                  status: 'publish',
-                  fields: values
-                })
-              );
+              contactMutation.mutate({
+                title: values.email,
+                status: 'publish',
+                fields: values
+              });
               setIsResubmitting(false);
             }}
             render={(formProps) => (
@@ -143,7 +133,7 @@ export default () => {
 
                 <Button
                   isDisabled={formProps.invalid && formProps.submitFailed}
-                  isLoading={isContactPending}
+                  isLoading={contactMutation.isLoading}
                   type={Button.types.submit}
                 >
                   Submit
