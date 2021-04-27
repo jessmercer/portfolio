@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
 import ErrorMessage from '../../components/error-message';
 import Image from '../../components/image';
@@ -8,12 +9,15 @@ import Text from '../../components/text';
 import Tiles from '../../components/tiles';
 import Wrapper from '../../components/wrapper';
 
-import useQuery, { queryKeys } from '../../lib/hooks/use-query';
+import useQuery, { services } from '../../lib/hooks/use-query';
 
 import styles from './index.module.css';
 
 export default () => {
-  const projectQuery = useQuery(queryKeys.project);
+  const params = useParams();
+  const projectQuery = useQuery(services.project, {
+    options: { params: { slug: params.slug } }
+  });
   const project = projectQuery?.data?.[0] || [];
 
   if (projectQuery.isError || (!project && !projectQuery.isLoading)) {

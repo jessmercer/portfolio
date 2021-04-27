@@ -10,15 +10,15 @@ import Wrapper from '../../components/wrapper';
 
 import homeSelectors from '../../lib/selectors/home';
 
-import useQuery, { queryKeys } from '../../lib/hooks/use-query';
+import useQuery, { services } from '../../lib/hooks/use-query';
 
 import { routes } from '../../lib/constants';
 
 import styles from './index.module.css';
 
 export default () => {
-  const homeQuery = useQuery(queryKeys.home);
-  const projectsQuery = useQuery(queryKeys.projects);
+  const homeQuery = useQuery(services.home);
+  const projectsQuery = useQuery(services.projects);
   const projects = projectsQuery.data || [];
 
   const { description, heading } = homeSelectors.getSimple(homeQuery.data);

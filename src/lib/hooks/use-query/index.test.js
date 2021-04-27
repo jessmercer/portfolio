@@ -1,34 +1,28 @@
-import React from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import nock from 'nock';
-import { renderHook } from '@testing-library/react-hooks';
-// import { rest, setupWorker } from 'msw';
-// import { act, create, ReactTestRenderer } from 'react-test-renderer';
+import { setupTestHook, setupServer } from '../../../setupTests';
+import useQuery, { services } from '.';
 
-import useQuery, { queryKeys } from '.';
+const setupTest = setupTestHook();
+const { serve } = setupServer();
 
-const queryClient = new QueryClient();
+const data = {
+  message: 'Test'
+};
 
 describe('Hooks: use-query', () => {
   describe('queryKeys', () => {
-    it('should work with the home query key', async () => {
-      const wrapper = ({ children }) => (
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
-      );
+    test('should work with the home query key', async () => {
+      serve({
+        endpoint: services.home.endpoint,
+        data,
+        params: services.home.params
+      });
+      const { result, waitForNextUpdate } = setupTest({
+        hook: () => useQuery(services.home)
+      });
 
-      nock('https://boggon.uk')
-        .get('/wp-json/wp/v2/pages?slug=jess-home&_fields=acf')
-        .reply(200, {
-          answer: 42
-        });
+      await waitForNextUpdate();
 
-      const { result, waitFor } = renderHook(() => useQuery(), { wrapper });
-
-      await waitFor(() => result.current.isSuccess);
-
-      expect(result.current).toEqual({ answer: 42 });
+      expect(result.current.data).toEqual(data);
     });
   });
 });
