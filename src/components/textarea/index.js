@@ -6,7 +6,6 @@ import styles from './index.module.css';
 const Textarea = ({ type, onChange, name }) => (
   <textarea
     type={type}
-    data-qa="textarea-input"
     className={styles.textarea}
     onChange={onChange}
     name={name}

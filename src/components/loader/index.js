@@ -5,7 +5,7 @@ import cx from 'classnames';
 import styles from './index.module.css';
 
 const Loader = ({ color, style }) => (
-  <div className={cx(styles.loaderWrapper)} data-qa="loader">
+  <div className={cx(styles.loaderWrapper)}>
     <div className={styles.loader}>
       <div
         className={cx(
@@ -14,7 +14,6 @@ const Loader = ({ color, style }) => (
           styles[color],
           styles[style]
         )}
-        data-qa="loader-dot"
       ></div>
       <div
         className={cx(
@@ -23,7 +22,6 @@ const Loader = ({ color, style }) => (
           styles[color],
           styles[style]
         )}
-        data-qa="loader-dot"
       ></div>
       <div
         className={cx(
@@ -32,9 +30,9 @@ const Loader = ({ color, style }) => (
           styles[color],
           styles[style]
         )}
-        data-qa="loader-dot"
       ></div>
     </div>
+    <span className={styles.text}>Loading</span>
   </div>
 );
 

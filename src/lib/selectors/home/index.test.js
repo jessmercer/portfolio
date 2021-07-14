@@ -1,69 +1,36 @@
 import homeSelectors from '.';
 
 describe('Selectors: Home', () => {
-  describe('getPredicate', () => {
-    it('should return the default state', () => {
-      expect(homeSelectors.getPredicate()).toEqual({
-        hasError: false,
-        isInitial: false,
-        isPending: false
-      });
-    });
-
-    it('should return the state', () => {
-      expect(
-        homeSelectors.getPredicate({
-          home: {
-            hasError: 'hasError',
-            isInitial: 'isInitial',
-            isPending: 'isPending'
-          }
-        })
-      ).toEqual({
-        hasError: 'hasError',
-        isInitial: 'isInitial',
-        isPending: 'isPending'
-      });
-    });
-  });
-
   describe('getSimple', () => {
-    describe('description', () => {
-      it('should return the default state', () => {
-        expect(homeSelectors.getSimple().description).toBeUndefined();
-      });
-      it('should return the state', () => {
-        expect(
-          homeSelectors.getSimple({
-            home: {
-              data: {
-                acf: {
-                  description: 'description'
-                }
-              }
-            }
-          }).description
-        ).toBe('description');
+    it('should return the default state', () => {
+      expect(homeSelectors.getSimple()).toEqual({
+        description: undefined,
+        heading: undefined
       });
     });
 
-    describe('heading', () => {
-      it('should return the default state', () => {
-        expect(homeSelectors.getSimple().heading).toBeUndefined();
-      });
-      it('should return the state', () => {
-        expect(
-          homeSelectors.getSimple({
-            home: {
-              data: {
-                acf: {
-                  heading: 'heading'
-                }
-              }
+    it('should return the description', () => {
+      expect(
+        homeSelectors.getSimple([
+          {
+            acf: {
+              description: 'description'
             }
-          }).heading
-        ).toBe('heading');
-      });
+          }
+        ]).description
+      ).toBe('description');
+    });
+
+    it('should return the heading', () => {
+      expect(
+        homeSelectors.getSimple([
+          {
+            acf: {
+              heading: 'heading'
+            }
+          }
+        ]).heading
+      ).toBe('heading');
     });
   });
 });

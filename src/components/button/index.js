@@ -9,7 +9,6 @@ import styles from './index.module.css';
 const Button = ({ children, isDisabled, isLoading, type, onClick }) => (
   <button
     type={type}
-    data-qa="button"
     className={cx(styles.button, {
       [styles.isDisabled]: isDisabled,
       [styles.isLoading]: isLoading
@@ -18,16 +17,11 @@ const Button = ({ children, isDisabled, isLoading, type, onClick }) => (
     onClick={onClick}
   >
     {isLoading ? (
-      <span
-        className={cx(styles.buttonLoaderWrapper)}
-        data-qa="button-loader-wrapper"
-      >
+      <span className={styles.buttonLoaderWrapper}>
         <Loader color={Loader.colors.white} style={Loader.styles.small} />
       </span>
     ) : null}
-    <span className={styles.buttonText} data-qa="button-text">
-      {children}
-    </span>
+    <span className={styles.buttonText}>{children}</span>
   </button>
 );
 

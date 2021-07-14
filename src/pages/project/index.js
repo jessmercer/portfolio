@@ -15,12 +15,12 @@ import styles from './index.module.css';
 
 export default () => {
   const params = useParams();
-  const projectQuery = useQuery(services.project, {
+  const projectsQuery = useQuery(services.projects, {
     options: { params: { slug: params.slug } }
   });
-  const project = projectQuery?.data?.[0] || [];
+  const project = projectsQuery?.data?.[0] || [];
 
-  if (projectQuery.isError || (!project && !projectQuery.isLoading)) {
+  if (projectsQuery.isError || (!project && !projectsQuery.isLoading)) {
     return (
       <ErrorMessage>
         Oops, something went wrong with loading the project.
@@ -28,7 +28,7 @@ export default () => {
     );
   }
 
-  if (projectQuery.isLoading || projectQuery.isFetching) {
+  if (projectsQuery.isLoading || projectsQuery.isFetching) {
     return <PageLoader />;
   }
 

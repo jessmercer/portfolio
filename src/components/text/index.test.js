@@ -1,84 +1,57 @@
 import React from 'react';
-import { setupTestComponent } from '../../setupTests';
+import { render, screen } from '@testing-library/react';
 
 import Text from '.';
 
-const setupTestWithString = setupTestComponent({
-  render: () => <Text>Im some text</Text>
-});
-
-const setupTestWithNode = setupTestComponent({
-  render: () => (
-    <Text>
-      <span>Im some text</span>
-    </Text>
-  )
-});
+const requiredProps = {
+  children: 'Im some text'
+};
 
 describe('Components: Text', () => {
   it('renders a Text when its children is a string', () => {
-    const { wrapper } = setupTestWithString();
-    expect(wrapper.find('[data-qa="text"]')).toHaveText('Im some text');
+    render(<Text {...requiredProps} />);
+    expect(screen.getByText('Im some text')).toBeInTheDocument();
   });
 
   it('accepts children when it is a node', () => {
-    const { wrapper } = setupTestWithNode();
-    expect(wrapper.find('[data-qa="text"] span')).toHaveText('Im some text');
-  });
-
-  it('renders correct className of text', () => {
-    const { wrapper } = setupTestWithString();
-    expect(wrapper.find('[data-qa="text"]')).toHaveClassName('text');
+    render(
+      <Text>
+        <span>Im some text</span>
+      </Text>
+    );
+    expect(screen.getByText('Im some text')).toBeInTheDocument();
   });
 
   it('renders a default text p element', () => {
-    const { wrapper } = setupTestWithString();
-    expect(wrapper.find('p[data-qa="text"]')).toExist();
-  });
-
-  it('renders Text with className small', () => {
-    const { wrapper } = setupTestWithString();
-    expect(wrapper.find('[data-qa="text"]')).toHaveClassName(Text.styles.small);
-  });
-
-  it('renders Text with className black', () => {
-    const { wrapper } = setupTestWithString();
-    expect(wrapper.find('[data-qa="text"]')).toHaveClassName(Text.colors.black);
+    render(<Text {...requiredProps} />);
+    expect(
+      screen.getByText('Im some text', { selector: 'p' })
+    ).toBeInTheDocument();
   });
 
   it.each(Object.values(Text.elements))(
     'renders the element: %p when it is passed as a prop',
-    element => {
-      const { wrapper } = setupTestWithString({
-        props: {
-          element: Text.elements[element]
-        }
-      });
-      expect(wrapper.find(`${element}[data-qa="text"]`)).toExist();
+    (element) => {
+      render(<Text {...requiredProps} element={element} />);
+      expect(
+        screen.getByText('Im some text', { selector: element })
+      ).toBeInTheDocument();
     }
   );
 
   it.each(Object.values(Text.styles))(
     'renders the style: %p when it is passed as a prop',
-    style => {
-      const { wrapper } = setupTestWithString({
-        props: {
-          style: Text.styles[style]
-        }
-      });
-      expect(wrapper.find('[data-qa="text"]')).toHaveClassName(style);
+    (style) => {
+      const { container } = render(<Text {...requiredProps} style={style} />);
+      expect(container.firstChild).toHaveClass(style);
     }
   );
 
   it.each(Object.values(Text.colors))(
     'renders the color: %p when it is passed as a prop',
-    color => {
-      const { wrapper } = setupTestWithString({
-        props: {
-          color: Text.colors[color]
-        }
-      });
-      expect(wrapper.find('[data-qa="text"]')).toHaveClassName(color);
+    (color) => {
+      const { container } = render(<Text {...requiredProps} color={color} />);
+      expect(container.firstChild).toHaveClass(color);
     }
   );
 });

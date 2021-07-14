@@ -4,18 +4,13 @@ import cx from 'classnames';
 
 import styles from './index.module.css';
 
-const Tile = ({ children, dataId }) => (
-  <div className={styles.tile} data-qa="tile" data-id={dataId}>
-    {children}
-  </div>
-);
+const Tile = ({ children }) => <div className={styles.tile}>{children}</div>;
 
 const Tiles = ({ children }) => (
   <div
     className={cx(styles.tiles, {
       [styles.isFullWidth]: !Array.isArray(children)
     })}
-    data-qa="tiles"
   >
     {children}
   </div>

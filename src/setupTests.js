@@ -1,88 +1,29 @@
 import React from 'react';
-// import { configure } from 'enzyme';
-// import Adapter from 'enzyme-adapter-react-16';
-// import { mount } from 'enzyme';
+import '@testing-library/jest-dom';
 import { rest } from 'msw';
 import { setupServer as mswSetupServer } from 'msw/node';
-import { renderHook as reactHooksRenderHook } from '@testing-library/react-hooks';
 import { QueryClient, QueryClientProvider, QueryCache } from 'react-query';
-import { MemoryRouter, Route } from 'react-router-dom';
-// import 'jest-enzyme';
+import { createMemoryHistory } from 'history';
+import { Router, Route } from 'react-router-dom';
 
-// configure({ adapter: new Adapter() });
-
-// export const setupTestComponent = ({ render } = {}) => ({ props } = {}) => ({
-//   wrapper: mount(
-//     <MemoryRouter>{React.cloneElement(render(), props)}</MemoryRouter>
-//   )
-// });
-
-// export const setupTestComponent = ({
-//   render,
-//   path: basePath,
-//   initialEntries: baseInitialEntries
-// } = {}) => ({
-//   props,
-//   path: testPath,
-//   initialEntries: testInitialEntries
-// } = {}) => {
-//   let history;
-//   const path = testPath || basePath || '*';
-//   const initialEntries = testInitialEntries || baseInitialEntries || ['/'];
-
-//   return {
-//     wrapper: mount(
-//       <MemoryRouter initialEntries={initialEntries}>
-//         <Route
-//           path={path}
-//           render={({ history: _history }) => {
-//             history = _history;
-
-//             return React.cloneElement(render(), props);
-//           }}
-//         />
-//       </MemoryRouter>
-//     ),
-//     history
-//   };
-// };
-
-export const setupTestHook = ({
-  hook: baseHook,
-  path: basePath,
-  initialEntries: baseInitialEntries
-} = {}) => ({
-  hook: testHook,
-  path: testPath,
-  initialEntries: testInitialEntries
-} = {}) => {
-  let history;
-  const hook = testHook || baseHook;
-  const path = testPath || basePath || '*';
-  const initialEntries = testInitialEntries || baseInitialEntries || ['/'];
+export const setupWrapper = ({ path, initialEntries } = {}) => {
+  const history = createMemoryHistory();
   const queryClient = new QueryClient();
   const queryCache = new QueryCache();
 
   queryCache.clear();
 
   // eslint-disable-next-line react/prop-types
-  const wrapper = ({ children }) => (
+  const Wrapper = ({ children }) => (
     <QueryClientProvider client={queryClient}>
-      <MemoryRouter initialEntries={initialEntries}>
-        <Route
-          path={path}
-          render={({ history: _history }) => {
-            history = _history;
-
-            return children;
-          }}
-        />
-      </MemoryRouter>
+      <Router history={history} initialEntries={initialEntries || ['/']}>
+        <Route path={path || '*'}>{children}</Route>
+      </Router>
     </QueryClientProvider>
   );
 
   return {
-    ...reactHooksRenderHook(() => hook(), { wrapper }),
+    Wrapper,
     history
   };
 };
@@ -102,24 +43,39 @@ export const setupServer = () => {
     server.resetHandlers();
   });
 
-  const serve = ({ endpoint, status = 200, data, params }) =>
-    server.use(
-      rest.get(endpoint, (req, res, ctx) => {
-        if (params) {
-          const query = req.url.searchParams;
+  const serve = ({ endpoint, status = 200, data, params, method = 'get' }) => {
+    if (!endpoint) {
+      return;
+    }
 
-          const hasParams = Object.entries(params).every(
-            ([key, value]) => query.get(key) === value
-          );
+    let request;
 
-          if (!hasParams) {
-            return;
+    const promise = new Promise((resolve) => {
+      server.use(
+        rest[method](endpoint, (req, res, ctx) => {
+          request = req;
+          if (params) {
+            const reqParams = Array.from(req.url.searchParams.entries());
+            const doReqParamsExist = reqParams.every(
+              ([key, value]) => params[key] === value
+            );
+            const hasMatchingParamsLength =
+              reqParams.length === Object.keys(params).length;
+
+            if (!doReqParamsExist || !hasMatchingParamsLength) {
+              return;
+            }
           }
-        }
 
-        return res.once(ctx.status(status), ctx.json(data));
-      })
-    );
+          resolve({ request });
+
+          return res.once(ctx.status(status), ctx.json(data));
+        })
+      );
+    });
+
+    return () => promise;
+  };
 
   return {
     serve

@@ -1,5 +1,6 @@
 import React from 'react';
-import { setupTestComponent } from '../../setupTests';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import TextInput from '.';
 
@@ -8,82 +9,50 @@ const onChange = jest.fn();
 const requiredProps = {
   value: 'text',
   onChange,
-  name: 'name'
+  name: 'foo'
 };
 
-const setupTest = setupTestComponent({
-  render: () => <TextInput {...requiredProps} />
-});
-
 describe('Components: TextInput', () => {
-  it('renders onChange on input', () => {
-    const { wrapper } = setupTest();
-    wrapper.find('[data-qa="input"]').simulate('change');
-    expect(wrapper.find('[data-qa="input"]')).toHaveProp(
-      'onChange',
-      requiredProps.onChange
-    );
+  it('should call onChange', () => {
+    render(<TextInput {...requiredProps} onChange={onChange} />);
+    userEvent.type(screen.getByRole('textbox'), 'Foo');
     expect(onChange).toHaveBeenCalled();
   });
 
   it('should render input with name', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('[data-qa="input"]')).toHaveProp(
-      'name',
-      requiredProps.name
-    );
+    render(<TextInput {...requiredProps} />);
+    expect(screen.getByRole('textbox', { name: 'foo' })).toBeInTheDocument();
   });
 
   it('should render input with id', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('[data-qa="input"]')).toHaveProp(
-      'id',
-      requiredProps.name
-    );
+    render(<TextInput {...requiredProps} />);
+    expect(screen.getByRole('textbox', { id: 'foo' })).toBeInTheDocument();
   });
 
   it('should render input with type of text as default', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('[data-qa="input"]')).toHaveProp('type', 'text');
-  });
-
-  it('renders data qa', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('[data-qa="input"]')).toExist();
-  });
-
-  it('renders TextInput with className textInput', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('[data-qa="input"]')).toHaveClassName('textInput');
+    render(<TextInput {...requiredProps} />);
+    expect(screen.getByRole('textbox', { type: 'text' })).toBeInTheDocument();
   });
 
   it('renders TextInput with className isValid', () => {
-    const { wrapper } = setupTest({
-      props: {
-        isValid: true
-      }
-    });
-    expect(wrapper.find('[data-qa="input"]')).toHaveClassName('isValid');
+    const { container } = render(<TextInput {...requiredProps} isValid />);
+    expect(container.firstChild).toHaveClass('isValid');
   });
 
   it('renders TextInput with className isInvalid', () => {
-    const { wrapper } = setupTest({
-      props: {
-        isInvalid: true
-      }
-    });
-    expect(wrapper.find('[data-qa="input"]')).toHaveClassName('isInvalid');
+    const { container } = render(<TextInput {...requiredProps} isInvalid />);
+    expect(container.firstChild).toHaveClass('isInvalid');
   });
 
   it.each(Object.values(TextInput.types))(
     'renders the type: %p when it is passed as a prop',
     (type) => {
-      const { wrapper } = setupTest({
-        props: {
-          type
-        }
-      });
-      expect(wrapper.find('[data-qa="input"]')).toHaveProp('type', type);
+      render(<TextInput {...requiredProps} type={type} />);
+      if (type === TextInput.types.password) {
+        expect(screen.getByLabelText('foo')).toHaveAttribute('type', type);
+      } else {
+        expect(screen.getByRole('textbox')).toHaveAttribute('type', type);
+      }
     }
   );
 });

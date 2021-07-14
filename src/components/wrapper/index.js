@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import styles from './index.module.css';
 
 const Wrapper = ({ children }) => (
-  <div className={styles.wrapper} data-qa="wrapper">
-    {children}
-  </div>
+  <div className={styles.wrapper}>{children}</div>
 );
 
 Wrapper.propTypes = {

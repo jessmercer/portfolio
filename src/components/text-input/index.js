@@ -7,7 +7,6 @@ import styles from './index.module.css';
 const TextInput = ({ type, isValid, isInvalid, onChange, name }) => (
   <input
     type={type}
-    data-qa="input"
     className={cx(styles.textInput, {
       [styles.isValid]: isValid,
       [styles.isInvalid]: isInvalid
@@ -15,6 +14,7 @@ const TextInput = ({ type, isValid, isInvalid, onChange, name }) => (
     onChange={onChange}
     name={name}
     id={name}
+    aria-label={name}
   />
 );
 

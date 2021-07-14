@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Source = ({ srcSet, width }) => (
   <source
     srcSet={srcSet}
-    data-srcset={srcSet}
+    data-testid={srcSet}
     media={`(min-width: ${width}px)`}
   />
 );
@@ -14,8 +14,8 @@ Source.propTypes = {
   width: PropTypes.number.isRequired
 };
 
-const Image = ({ src, alt, sources, dataId }) => (
-  <picture data-qa="image" data-id={dataId}>
+const Image = ({ src, alt, sources }) => (
+  <picture>
     {sources.map(({ srcSet, width }) => (
       <Source srcSet={srcSet} width={width} key={srcSet} />
     ))}

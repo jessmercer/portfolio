@@ -4,12 +4,8 @@ import cx from 'classnames';
 
 import styles from './index.module.css';
 
-const Text = ({ children, element: Element, color, style, dataId }) => (
-  <Element
-    className={cx(styles.text, styles[style], styles[color])}
-    data-qa="text"
-    data-id={dataId}
-  >
+const Text = ({ children, element: Element, color, style }) => (
+  <Element className={cx(styles.text, styles[style], styles[color])}>
     {children}
   </Element>
 );
@@ -37,15 +33,13 @@ Text.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
   element: PropTypes.oneOf(Object.values(Text.elements)),
   color: PropTypes.oneOf(Object.values(Text.colors)),
-  style: PropTypes.oneOf(Object.values(Text.styles)),
-  dataId: PropTypes.string
+  style: PropTypes.oneOf(Object.values(Text.styles))
 };
 
 Text.defaultProps = {
   element: Text.elements.p,
   color: Text.colors.black,
-  style: Text.styles.small,
-  dataId: null
+  style: Text.styles.small
 };
 
 export default Text;

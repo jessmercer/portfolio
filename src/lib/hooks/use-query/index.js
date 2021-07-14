@@ -17,17 +17,10 @@ export const services = {
     params: {
       _fields: 'title,acf,slug'
     }
-  },
-  project: {
-    queryKey: 'project',
-    endpoint: `${api}/wp/v2/jess_project`,
-    params: {
-      _fields: 'title,acf,slug'
-    }
   }
 };
 
-const useQuery = (service, { useQueryOptions, options = {} } = {}) => {
+const useQuery = (service = {}, { useQueryOptions, options = {} } = {}) => {
   const { queryKey, endpoint, params } = service;
 
   if (!queryKey) {

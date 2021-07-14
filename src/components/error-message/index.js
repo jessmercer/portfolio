@@ -6,7 +6,7 @@ import Text from '../text';
 import styles from './index.module.css';
 
 const ErrorMessage = ({ children }) => (
-  <div className={styles.errorMessage} data-qa="error-message">
+  <div className={styles.errorMessage}>
     <Text color={Text.colors.red}>{children}</Text>
   </div>
 );

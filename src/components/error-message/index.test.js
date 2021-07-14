@@ -1,27 +1,15 @@
 import React from 'react';
+import { render, screen } from '@testing-library/react';
 
-import { setupTestComponent } from '../../setupTests';
 import ErrorMessage from '.';
 
-const setupTest = setupTestComponent({
-  render: () => <ErrorMessage>hey im an error</ErrorMessage>
-});
+const requiredProps = {
+  children: 'hey im an error'
+};
 
 describe('Components: ErrorMessage', () => {
-  it('renders correct className on ErrorMessage', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('[data-qa="error-message"]')).toHaveClassName(
-      'errorMessage'
-    );
-  });
-
-  it('renders an ErrorMessage with its children as a string', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('[data-qa="text"]')).toHaveText('hey im an error');
-  });
-
-  it('renders correct data qa with the color red', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('[data-qa="text"]')).toHaveClassName('red');
+  it('should render error message with the correct copy and the color red', () => {
+    render(<ErrorMessage {...requiredProps} />);
+    expect(screen.getByText('hey im an error')).toHaveClass('red');
   });
 });

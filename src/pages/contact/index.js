@@ -11,12 +11,12 @@ import isEmail from '../../lib/validation/is-email';
 import isPhoneNumber from '../../lib/validation/is-phone-number';
 import isRequired from '../../lib/validation/is-required';
 
-import useMutation, { mutationKeys } from '../../lib/hooks/use-mutation';
+import useMutation, { services } from '../../lib/hooks/use-mutation';
 
 import styles from './index.module.css';
 
 export default () => {
-  const contactMutation = useMutation(mutationKeys.contact);
+  const contactMutation = useMutation(services.contact);
 
   const [isResubmitting, setIsResubmitting] = useState(false);
 

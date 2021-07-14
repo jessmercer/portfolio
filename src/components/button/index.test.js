@@ -1,5 +1,6 @@
 import React from 'react';
-import { setupTestComponent } from '../../setupTests';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import Button from '.';
 
@@ -8,110 +9,61 @@ const requiredProps = {
   children: 'submit'
 };
 
-const setupTest = setupTestComponent({
-  render: () => <Button {...requiredProps} />
-});
-
 describe('Components: Button', () => {
-  it('should render button with type of submit as default', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('[data-qa="button"]')).toHaveProp('type', 'submit');
+  it('should render button with type of submit and the correct copy', () => {
+    render(<Button {...requiredProps} />);
+    expect(screen.getByRole('button', { name: /submit/i })).toHaveTextContent(
+      'submit'
+    );
   });
 
-  it('renders data qa', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('[data-qa="button"]')).toExist();
-  });
-
-  it('renders Button with className submit', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('[data-qa="button"]')).toHaveClassName('button');
+  it('renders Button with className button', () => {
+    const { container } = render(<Button {...requiredProps} />);
+    expect(container.firstChild).toHaveClass('button');
   });
 
   it('renders Button with className isDisabled', () => {
-    const { wrapper } = setupTest({
-      props: {
-        isDisabled: true
-      }
-    });
-    expect(wrapper.find('[data-qa="button"]')).toHaveClassName('isDisabled');
+    const { container } = render(<Button {...requiredProps} isDisabled />);
+    expect(container.firstChild).toHaveClass('isDisabled');
   });
 
   it('renders Button with className isLoading', () => {
-    const { wrapper } = setupTest({
-      props: {
-        isLoading: true
-      }
-    });
-    expect(wrapper.find('[data-qa="button"]')).toHaveClassName('isLoading');
-  });
-
-  it('renders Button when its children is a string', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('[data-qa="button"]')).toHaveText('submit');
+    const { container } = render(<Button {...requiredProps} isLoading />);
+    expect(container.firstChild).toHaveClass('isLoading');
   });
 
   it('renders button as disabled when isDisabled is passed', () => {
-    const { wrapper } = setupTest({
-      props: {
-        isDisabled: true
-      }
-    });
-    expect(wrapper.find('[data-qa="button"]')).toHaveProp('disabled', true);
+    render(<Button {...requiredProps} isDisabled />);
+    expect(screen.getByRole('button')).toHaveAttribute('disabled');
   });
 
   it('renders button as disabled when isLoading is passed', () => {
-    const { wrapper } = setupTest({
-      props: {
-        isLoading: true
-      }
-    });
-    expect(wrapper.find('[data-qa="button"]')).toHaveProp('disabled', true);
+    render(<Button {...requiredProps} isLoading />);
+    expect(screen.getByRole('button')).toHaveAttribute('disabled');
   });
 
   it('renders button onClick when onClick is passed', () => {
     const onClick = jest.fn();
-    const { wrapper } = setupTest({
-      props: {
-        onClick
-      }
-    });
-    wrapper.find('[data-qa="button"]').simulate('click');
+    render(<Button {...requiredProps} onClick={onClick} />);
+    userEvent.click(screen.getByRole('button'));
     expect(onClick).toHaveBeenCalled();
   });
 
-  it('should render button with span className buttonText', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('[data-qa="button-text"]')).toHaveClassName(
-      'buttonText'
-    );
-  });
-
-  it('should render button with span className buttonLoaderWrapper when isLoading prop is passed', () => {
-    const { wrapper } = setupTest({
-      props: {
-        isLoading: true
-      }
-    });
-    expect(wrapper.find('[data-qa="button-loader-wrapper"]')).toHaveClassName(
-      'buttonLoaderWrapper'
-    );
+  it('should render loader when isLoading prop is passed', () => {
+    render(<Button {...requiredProps} isLoading />);
+    expect(screen.getByText('Loading')).toBeInTheDocument();
   });
 
   it('renders a default type submit', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('[data-qa="button"]')).toExist();
+    render(<Button {...requiredProps} />);
+    expect(screen.getByRole('button', { type: /submit/i })).toBeInTheDocument();
   });
 
   it.each(Object.values(Button.types))(
     'renders the type: %p when it is passed as a prop',
     (type) => {
-      const { wrapper } = setupTest({
-        props: {
-          type: Button.types[type]
-        }
-      });
-      expect(wrapper.find('[data-qa="button"]')).toExist();
+      render(<Button {...requiredProps} type={type} />);
+      expect(screen.getByRole('button', { type: type })).toBeInTheDocument();
     }
   );
 });

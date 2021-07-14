@@ -4,8 +4,8 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 
 import styles from './index.module.css';
 
-const Link = ({ children, to, dataId, isAnchor, isExternal }) => (
-  <span data-qa="link" data-id={dataId}>
+const Link = ({ children, to, isAnchor, isExternal }) => (
+  <span>
     {isAnchor ? (
       <a
         href={to}
@@ -25,13 +25,11 @@ const Link = ({ children, to, dataId, isAnchor, isExternal }) => (
 Link.propTypes = {
   to: PropTypes.string.isRequired,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
-  dataId: PropTypes.string,
   isAnchor: PropTypes.bool,
   isExternal: PropTypes.bool
 };
 
 Link.defaultProps = {
-  dataId: '',
   isAnchor: false,
   isExternal: false
 };

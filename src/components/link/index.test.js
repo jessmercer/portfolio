@@ -1,84 +1,57 @@
 import React from 'react';
 // import { act } from 'react-dom/test-utils';
-
-import { setupTestComponent, setupTestProvider } from '../../setupTests';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { setupWrapper } from '../../setupTests';
 import Link from '.';
 
 const requiredProps = {
-  to: '/test'
+  to: '/test',
+  children: 'hey im a link'
 };
 
-const setupTestWithString = setupTestProvider({
-  render: () => <Link {...requiredProps}>hey im a link</Link>
-});
-
-const setupTestWithNode = setupTestComponent({
-  render: () => (
-    <Link {...requiredProps}>
-      <div>hey im a link</div>
-    </Link>
-  )
-});
+const { Wrapper, history } = setupWrapper();
+const WrappedComponent = (props) => (
+  <Wrapper>
+    <Link {...requiredProps} {...props} />
+  </Wrapper>
+);
 
 describe('Components: Link', () => {
   it('renders a Link when its children is a string', () => {
-    const { wrapper } = setupTestWithString();
-    expect(wrapper.find('[data-qa="link"]')).toHaveText('hey im a link');
+    render(<WrappedComponent />);
+    expect(screen.getByRole('link')).toHaveTextContent('hey im a link');
   });
 
   it('renders a Link when its children is a node', () => {
-    const { wrapper } = setupTestWithNode();
-    expect(wrapper.find('[data-qa="link"] div')).toHaveText('hey im a link');
+    render(
+      <WrappedComponent>
+        <div>hey im a link</div>
+      </WrappedComponent>
+    );
+    expect(screen.getByRole('link')).toHaveTextContent('hey im a link');
   });
 
   it('calls react router with the correct to', () => {
-    const { wrapper, history } = setupTestWithString();
-    act(() => {
-      wrapper.find('[data-qa="link"] a').simulate('click', { button: 0 });
-    });
+    render(<WrappedComponent />);
+    userEvent.click(screen.getByRole('link'));
     expect(history.location.pathname).toBe(requiredProps.to);
   });
 
-  it('renders a data-id', () => {
-    const { wrapper } = setupTestWithNode({
-      props: {
-        dataId: 'test'
-      }
-    });
-    expect(wrapper.find('span[data-id="test"]')).toExist();
-  });
-
   it('renders anchor', () => {
-    const { wrapper } = setupTestWithString({
-      props: {
-        isAnchor: true
-      }
-    });
-    expect(wrapper.find('[data-qa="link"] a')).toHaveText('hey im a link');
-    expect(wrapper.find('[data-qa="link"] a')).toHaveProp(
-      'href',
-      requiredProps.to
-    );
-    expect(wrapper.find('[data-qa="link"] a')).toHaveClassName('link');
+    render(<WrappedComponent isAnchor />);
+    expect(screen.getByRole('link')).toHaveTextContent('hey im a link');
+    expect(screen.getByRole('link')).toHaveAttribute('href', requiredProps.to);
   });
 
   it('renders anchor with external link', () => {
-    const { wrapper } = setupTestWithString({
-      props: {
-        isAnchor: true,
-        isExternal: true
-      }
-    });
-    expect(wrapper.find('[data-qa="link"] a')).toHaveText('hey im a link');
-    expect(wrapper.find('[data-qa="link"] a')).toHaveProp(
-      'href',
-      requiredProps.to
-    );
-    expect(wrapper.find('[data-qa="link"] a')).toHaveProp('target', '_blank');
-    expect(wrapper.find('[data-qa="link"] a')).toHaveProp(
+    render(<WrappedComponent isAnchor isExternal />);
+    expect(screen.getByRole('link')).toHaveTextContent('hey im a link');
+    expect(screen.getByRole('link')).toHaveAttribute('href', requiredProps.to);
+    expect(screen.getByRole('link')).toHaveAttribute('target', '_blank');
+    expect(screen.getByRole('link')).toHaveAttribute(
       'rel',
       'noopener noreferrer'
     );
-    expect(wrapper.find('[data-qa="link"] a')).toHaveClassName('link');
   });
 });

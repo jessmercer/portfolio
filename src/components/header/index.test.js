@@ -1,57 +1,49 @@
 import React from 'react';
 // import { act } from 'react-dom/test-utils';
+import { render, screen } from '@testing-library/react';
+// import { routes } from '../../lib/constants';
+import { setupWrapper } from '../../setupTests';
 
-import { routes } from '../../lib/constants';
-
-import { setupTestProvider } from '../../setupTests';
 import Header from '.';
 
-const setupTest = setupTestProvider({
-  render: () => <Header />
-});
+const { Wrapper } = setupWrapper();
+const WrappedComponent = () => (
+  <Wrapper>
+    <Header />
+  </Wrapper>
+);
 
 describe('Components: Header', () => {
-  it('should render Header with correct className', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('header')).toHaveClassName('header');
-  });
-
-  it('should render name anchor with correct text as span', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('span[data-id="name-link"]')).toHaveText(
-      'Jessica Mercer'
-    );
+  it('should render name anchor with correct text', () => {
+    render(<WrappedComponent />);
+    expect(
+      screen.getByText('Jessica Mercer', { selector: 'a' })
+    ).toBeInTheDocument();
   });
 
   it('should push to home when name link is clicked', () => {
-    const { wrapper, history } = setupTest();
-    wrapper
-      .find('span[data-id="name-link"] a')
-      .simulate('click', { button: 0 });
-    expect(history.location.pathname).toBe('/');
+    render(<WrappedComponent />);
+    expect(screen.getByText('Jessica Mercer').closest('a')).toHaveAttribute(
+      'href',
+      '/'
+    );
   });
 
   it('should push to /contact when the contact link is clicked', () => {
-    const { wrapper, history } = setupTest();
-    act(() => {
-      wrapper
-        .find('span[data-id="contact-link"] a')
-        .simulate('click', { button: 0 });
-    });
-    expect(history.location.pathname).toBe(routes.contact);
-  });
-
-  it('should render job description with correct text as p', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('p[data-id="job-description"]')).toHaveText(
-      'Front End Web Developer'
+    render(<WrappedComponent />);
+    expect(screen.getByText('Contact').closest('a')).toHaveAttribute(
+      'href',
+      '/contact'
     );
   });
 
-  it('should render contact with correct text as span', () => {
-    const { wrapper } = setupTest();
-    expect(wrapper.find('span[data-id="contact-link"] a')).toHaveText(
-      'Contact'
-    );
+  it('should render job description with correct text', () => {
+    render(<WrappedComponent />);
+    expect(screen.getByText('Front End Web Developer')).toBeInTheDocument();
+  });
+
+  it('should render contact with correct text', () => {
+    render(<WrappedComponent />);
+    expect(screen.getByText('Contact', { selector: 'a' })).toBeInTheDocument();
   });
 });
