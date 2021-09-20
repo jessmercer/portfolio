@@ -72,7 +72,8 @@ describe('Hooks: use-query', () => {
         services.projects.queryKey,
         expect.any(Function),
         {
-          refetchOnWindowFocus: false
+          refetchOnWindowFocus: false,
+          retry: 0
         }
       );
     });
@@ -97,7 +98,8 @@ describe('Hooks: use-query', () => {
         services.projects.queryKey,
         expect.any(Function),
         {
-          refetchOnWindowFocus: true
+          refetchOnWindowFocus: true,
+          retry: 0
         }
       );
     });

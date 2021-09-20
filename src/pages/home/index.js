@@ -31,24 +31,18 @@ export default () => {
     );
   }
 
-  if (homeQuery.isLoading || projectsQuery.isLoading) {
+  if (homeQuery.isFetching || projectsQuery.isFetching) {
     return <PageLoader />;
   }
 
   return (
     <Wrapper>
       <div className={styles.description}>
-        <Text style={Text.styles.medium} dataId="description">
-          {description}
-        </Text>
+        <Text style={Text.styles.medium}>{description}</Text>
       </div>
 
       <div className={styles.pageHeading}>
-        <Text
-          element={Text.elements.h1}
-          style={Text.styles.large}
-          dataId="page-heading"
-        >
+        <Text element={Text.elements.h1} style={Text.styles.large}>
           {heading}
         </Text>
       </div>
@@ -58,7 +52,7 @@ export default () => {
           const titleRendered = title.rendered;
 
           return (
-            <Tiles.Tile key={slug} dataId={slug}>
+            <Tiles.Tile key={slug}>
               <Link to={`${routes.project}/${slug}`}>
                 <div>
                   <Image

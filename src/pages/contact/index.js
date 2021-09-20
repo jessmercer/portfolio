@@ -53,9 +53,7 @@ export default () => {
                       input: { onChange, name }
                     }) => (
                       <Fragment>
-                        <label data-id={name} htmlFor={name}>
-                          Full Name*
-                        </label>
+                        <label htmlFor={name}>Full Name*</label>
                         <TextInput
                           isValid={valid}
                           isInvalid={invalid && submitFailed}
@@ -79,9 +77,7 @@ export default () => {
                       input: { onChange, name }
                     }) => (
                       <Fragment>
-                        <label htmlFor={name} data-id={name}>
-                          Email*
-                        </label>
+                        <label htmlFor={name}>Email*</label>
                         <TextInput
                           isValid={valid}
                           isInvalid={invalid && submitFailed}
@@ -105,9 +101,7 @@ export default () => {
                       input: { onChange, name }
                     }) => (
                       <Fragment>
-                        <label htmlFor={name} data-id={name}>
-                          Number
-                        </label>
+                        <label htmlFor={name}>Number</label>
                         <TextInput
                           isValid={valid}
                           isInvalid={invalid && submitFailed}
@@ -122,9 +116,7 @@ export default () => {
                   <Field name="message">
                     {({ input: { onChange, name } }) => (
                       <Fragment>
-                        <label htmlFor={name} data-id={name}>
-                          Message
-                        </label>
+                        <label htmlFor={name}>Message</label>
                         <Textarea onChange={onChange} name={name} />
                       </Fragment>
                     )}
@@ -143,11 +135,7 @@ export default () => {
                   formProps.submitFailed &&
                   Object.entries(formProps.errors).map(([key, value]) => (
                     <div key={key}>
-                      <Text
-                        style={Text.styles.small}
-                        color={Text.colors.red}
-                        dataId={`error-${key}`}
-                      >
+                      <Text style={Text.styles.small} color={Text.colors.red}>
                         {value}
                       </Text>
                     </div>
@@ -157,13 +145,8 @@ export default () => {
           />
         ) : (
           <div>
-            <Text style={Text.styles.medium} data-qa="success-message">
-              Thank you for your message.
-            </Text>
-            <Button
-              data-qa="success-button"
-              onClick={() => setIsResubmitting(true)}
-            >
+            <Text style={Text.styles.medium}>Thank you for your message.</Text>
+            <Button onClick={() => setIsResubmitting(true)}>
               Send another
             </Button>
           </div>

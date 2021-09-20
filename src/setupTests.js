@@ -2,21 +2,35 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { rest } from 'msw';
 import { setupServer as mswSetupServer } from 'msw/node';
-import { QueryClient, QueryClientProvider, QueryCache } from 'react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+  QueryCache,
+  setLogger
+} from 'react-query';
 import { createMemoryHistory } from 'history';
 import { Router, Route } from 'react-router-dom';
 
-export const setupWrapper = ({ path, initialEntries } = {}) => {
-  const history = createMemoryHistory();
+process.env = Object.assign(process.env, {
+  REACT_APP_AUTH_USERNAME: 'username',
+  REACT_APP_AUTH_PASSWORD: 'password'
+});
+
+export const setupWrapper = ({ path, location } = {}) => {
+  let history = createMemoryHistory();
   const queryClient = new QueryClient();
   const queryCache = new QueryCache();
 
-  queryCache.clear();
+  afterEach(() => {
+    queryCache.clear();
+  });
+
+  history.push(location);
 
   // eslint-disable-next-line react/prop-types
   const Wrapper = ({ children }) => (
     <QueryClientProvider client={queryClient}>
-      <Router history={history} initialEntries={initialEntries || ['/']}>
+      <Router history={history}>
         <Route path={path || '*'}>{children}</Route>
       </Router>
     </QueryClientProvider>
@@ -32,7 +46,12 @@ export const setupServer = () => {
   const server = mswSetupServer();
 
   beforeAll(() => {
-    server.listen();
+    server.listen({ onUnhandledRequest: 'error' });
+    setLogger({
+      log: () => {},
+      warn: () => {},
+      error: () => {}
+    });
   });
 
   afterAll(() => {
@@ -48,7 +67,7 @@ export const setupServer = () => {
       return;
     }
 
-    let request;
+    let request = null;
 
     const promise = new Promise((resolve) => {
       server.use(
@@ -67,9 +86,9 @@ export const setupServer = () => {
             }
           }
 
-          resolve({ request });
+          resolve({ request, response: data });
 
-          return res.once(ctx.status(status), ctx.json(data));
+          return res.once(ctx.status(status), ctx.json(data), ctx.delay(10));
         })
       );
     });

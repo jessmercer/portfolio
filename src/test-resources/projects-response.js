@@ -4,7 +4,7 @@ export default [
     title: { rendered: 'Test' },
     acf: {
       created_with: 'Test created with',
-      tools: 'Test cools again',
+      tools: 'Test tools used',
       image: {
         ID: 52,
         id: 52,

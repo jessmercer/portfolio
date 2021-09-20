@@ -18,18 +18,18 @@ export default () => {
   const projectsQuery = useQuery(services.projects, {
     options: { params: { slug: params.slug } }
   });
-  const project = projectsQuery?.data?.[0] || [];
+  const project = projectsQuery?.data?.[0];
 
-  if (projectsQuery.isError || (!project && !projectsQuery.isLoading)) {
+  if (projectsQuery.isFetching) {
+    return <PageLoader />;
+  }
+
+  if (projectsQuery.isError || (!project && projectsQuery.isSuccess)) {
     return (
       <ErrorMessage>
         Oops, something went wrong with loading the project.
       </ErrorMessage>
     );
-  }
-
-  if (projectsQuery.isLoading || projectsQuery.isFetching) {
-    return <PageLoader />;
   }
 
   const titleRendered = project.title.rendered;
@@ -43,11 +43,7 @@ export default () => {
         <Tiles>
           <Tiles.Tile>
             <div className={styles.projectTitle}>
-              <Text
-                element={Text.elements.h1}
-                style={Text.styles.large}
-                dataId="title"
-              >
+              <Text element={Text.elements.h1} style={Text.styles.large}>
                 {titleRendered}
               </Text>
             </div>
@@ -68,14 +64,12 @@ export default () => {
               />
             </div>
             <div className={styles.projectCreated}>
-              <Text style={Text.styles.medium} dataId="created-width">
+              <Text style={Text.styles.medium}>
                 Created with: {created_with}
               </Text>
             </div>
             <div className={styles.projectTools}>
-              <Text style={Text.styles.medium} dataId="tools">
-                Tools used: {tools}
-              </Text>
+              <Text style={Text.styles.medium}>Tools used: {tools}</Text>
             </div>
             {project_link && (
               <div className={styles.projectLink}>

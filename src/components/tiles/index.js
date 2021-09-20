@@ -19,12 +19,7 @@ const Tiles = ({ children }) => (
 Tiles.Tile = Tile;
 
 Tile.propTypes = {
-  children: PropTypes.node.isRequired,
-  dataId: PropTypes.string
-};
-
-Tile.defaultProps = {
-  dataId: null
+  children: PropTypes.node.isRequired
 };
 
 Tiles.propTypes = {

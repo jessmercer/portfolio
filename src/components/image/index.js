@@ -31,13 +31,11 @@ Image.propTypes = {
       srcSet: PropTypes.string,
       width: PropTypes.number
     })
-  ),
-  dataId: PropTypes.string
+  )
 };
 
 Image.defaultProps = {
-  sources: [],
-  dataId: null
+  sources: []
 };
 
 export default Image;

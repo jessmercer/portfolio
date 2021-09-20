@@ -9,59 +9,6 @@ const { Wrapper } = setupWrapper();
 const { serve } = setupServer();
 
 describe('Hooks: use-mutation', () => {
-  describe('mutationKeys', () => {
-    test('should work with the contact mutation key', async () => {
-      const authPromise = serve({
-        endpoint: authApi.endpoint,
-        method: 'post',
-        data: {
-          data: {
-            token: '123456'
-          }
-        }
-      });
-      const contactPromise = serve({
-        endpoint: services.contact.endpoint,
-        method: 'post'
-      });
-      const { result, waitForNextUpdate } = renderHook(
-        () => useMutation(services.contact),
-        { wrapper: ({ children }) => <Wrapper>{children}</Wrapper> }
-      );
-
-      await act(async () => {
-        result.current.mutate({
-          test: 'test',
-          test2: 'test2'
-        });
-      });
-
-      await waitForNextUpdate();
-
-      const auth = await authPromise();
-      const contact = await contactPromise();
-
-      expect(
-        Array.from(auth.request.body.entries()).reduce(
-          (acc, f) => ({ ...acc, [f[0]]: f[1] }),
-          {}
-        )
-      ).toMatchObject({
-        password: 'MUe4@(Em3SGJ2$5ucnMIJsc5',
-        username: 'Auth'
-      });
-      expect(contact.request.body).toEqual({ test: 'test', test2: 'test2' });
-      expect(contact.request.headers._headers.authorization).toBe(
-        'Bearer 123456'
-      );
-      expect(contact.request.headers._headers['content-type']).toBe(
-        'application/json'
-      );
-      expect(contact.request.headers._headers.accept).toBe('application/json');
-      expect(result.current.isSuccess).toBeTruthy();
-    });
-  });
-
   test('should work with a different accepted method', async () => {
     serve({
       endpoint: authApi.endpoint,
@@ -118,7 +65,7 @@ describe('Hooks: use-mutation', () => {
       { wrapper: ({ children }) => <Wrapper>{children}</Wrapper> }
     );
 
-    expect(result.error).toEqual(new Error('FOO is not an accepted method'));
+    expect(result.error).toEqual(new Error('foo is not an accepted method'));
   });
 
   test('should throw error with a key that does not exist', async () => {
@@ -166,5 +113,115 @@ describe('Hooks: use-mutation', () => {
     await waitForNextUpdate();
 
     expect(console.log).toHaveBeenCalledWith('success');
+  });
+
+  describe('mutationKeys', () => {
+    describe('contact', () => {
+      test('should throw when auth enpoint throws', async () => {
+        const authPromise = serve({
+          endpoint: authApi.endpoint,
+          method: 'post',
+          status: 500
+        });
+        const { result, waitForNextUpdate } = renderHook(
+          () => useMutation(services.contact),
+          { wrapper: ({ children }) => <Wrapper>{children}</Wrapper> }
+        );
+
+        await act(async () => {
+          result.current.mutate();
+        });
+
+        await waitForNextUpdate();
+
+        await authPromise();
+        expect(result.current.isError).toBeTruthy();
+      });
+
+      test('should throw when contact enpoint throws', async () => {
+        const authPromise = serve({
+          endpoint: authApi.endpoint,
+          method: 'post',
+          data: {
+            data: {
+              token: '123456'
+            }
+          }
+        });
+        const contactPromise = serve({
+          endpoint: services.contact.endpoint,
+          method: 'post',
+          status: 500
+        });
+        const { result, waitForNextUpdate } = renderHook(
+          () => useMutation(services.contact),
+          { wrapper: ({ children }) => <Wrapper>{children}</Wrapper> }
+        );
+
+        await act(async () => {
+          result.current.mutate();
+        });
+
+        await waitForNextUpdate();
+
+        await authPromise();
+        await contactPromise();
+
+        expect(result.current.isError).toBeTruthy();
+      });
+
+      test('should work with the contact mutation key', async () => {
+        const authPromise = serve({
+          endpoint: authApi.endpoint,
+          method: 'post',
+          data: {
+            data: {
+              token: '123456'
+            }
+          }
+        });
+        const contactPromise = serve({
+          endpoint: services.contact.endpoint,
+          method: 'post'
+        });
+        const { result, waitForNextUpdate } = renderHook(
+          () => useMutation(services.contact),
+          { wrapper: ({ children }) => <Wrapper>{children}</Wrapper> }
+        );
+
+        await act(async () => {
+          result.current.mutate({
+            test: 'test',
+            test2: 'test2'
+          });
+        });
+
+        await waitForNextUpdate();
+
+        const auth = await authPromise();
+        const contact = await contactPromise();
+
+        expect(
+          Array.from(auth.request.body.entries()).reduce(
+            (acc, f) => ({ ...acc, [f[0]]: f[1] }),
+            {}
+          )
+        ).toMatchObject({
+          password: 'password',
+          username: 'username'
+        });
+        expect(contact.request.body).toEqual({ test: 'test', test2: 'test2' });
+        expect(contact.request.headers._headers.authorization).toBe(
+          'Bearer 123456'
+        );
+        expect(contact.request.headers._headers['content-type']).toBe(
+          'application/json'
+        );
+        expect(contact.request.headers._headers.accept).toBe(
+          'application/json'
+        );
+        expect(result.current.isSuccess).toBeTruthy();
+      });
+    });
   });
 });

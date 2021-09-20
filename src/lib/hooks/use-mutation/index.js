@@ -1,4 +1,5 @@
 import { useMutation as useReactQueryMutation } from 'react-query';
+import axios from 'axios';
 
 import { api } from '../../constants';
 
@@ -6,7 +7,7 @@ export const authApi = {
   endpoint: `${api}/jwt-auth/v1/token`
 };
 
-const acceptedMethods = ['POST', 'PUT', 'PATCH'];
+const acceptedMethods = ['post', 'put', 'patch'];
 
 export const services = {
   contact: {
@@ -21,10 +22,8 @@ const useMutation = (
 ) => {
   const { queryKey, endpoint } = service;
 
-  const methodUppercase = method.toUpperCase();
-
-  if (!acceptedMethods.includes(methodUppercase)) {
-    throw Error(`${methodUppercase} is not an accepted method`);
+  if (!acceptedMethods.includes(method.toLowerCase())) {
+    throw Error(`${method} is not an accepted method`);
   }
 
   if (!queryKey) {
@@ -33,24 +32,19 @@ const useMutation = (
 
   return useReactQueryMutation((body) => {
     const formData = new FormData();
-    formData.append('username', 'Auth');
-    formData.append('password', 'MUe4@(Em3SGJ2$5ucnMIJsc5');
+    formData.append('username', process.env.REACT_APP_AUTH_USERNAME);
+    formData.append('password', process.env.REACT_APP_AUTH_PASSWORD);
 
-    return fetch(authApi.endpoint, {
-      method: 'post',
-      body: formData
-    })
-      .then((response) => response.json())
-      .then(({ data: { token } = {} } = {}) =>
-        fetch(endpoint, {
-          method: methodUppercase,
-          body: JSON.stringify(body),
+    return axios
+      .post(authApi.endpoint, formData)
+      .then(({ data: { data: { token } = {} } = {} } = {}) =>
+        axios[method](endpoint, JSON.stringify(body), {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
             accept: 'application/json'
           }
-        }).then((data) => data)
+        }).then(({ data }) => data)
       );
   }, useMutationOptions);
 };

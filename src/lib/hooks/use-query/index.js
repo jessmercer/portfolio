@@ -1,4 +1,5 @@
 import { useQuery as useReactQuery } from 'react-query';
+import axios from 'axios';
 
 import { api } from '../../constants';
 
@@ -30,16 +31,14 @@ const useQuery = (service = {}, { useQueryOptions, options = {} } = {}) => {
   return useReactQuery(
     queryKey,
     () =>
-      fetch(
-        params
-          ? `${endpoint}?` +
-              new URLSearchParams({ ...params, ...options.params })
-          : endpoint
-      )
-        .then((response) => response.json())
-        .then((data) => data),
+      axios
+        .get(endpoint, {
+          params: { ...params, ...options.params }
+        })
+        .then(({ data }) => data),
     {
       refetchOnWindowFocus: false,
+      retry: 0,
       ...useQueryOptions
     }
   );
