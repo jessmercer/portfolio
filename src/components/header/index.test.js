@@ -1,7 +1,5 @@
 import React from 'react';
-// import { act } from 'react-dom/test-utils';
 import { render, screen } from '@testing-library/react';
-// import { routes } from '../../lib/constants';
 import { setupWrapper } from '../../setupTests';
 
 import Header from '.';

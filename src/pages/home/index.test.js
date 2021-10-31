@@ -9,7 +9,6 @@ import { setupWrapper, setupServer } from '../../setupTests';
 import { services } from '../../lib/hooks/use-query';
 import homeResponse from '../../test-resources/home-response';
 import projectsResponse from '../../test-resources/projects-response';
-// import { routes } from '../../lib/constants';
 import Home from '.';
 
 const { serve } = setupServer();
