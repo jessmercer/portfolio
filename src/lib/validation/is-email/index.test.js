@@ -1,13 +1,9 @@
 import isEmail from '.';
 
 describe('validation: isEmail', () => {
-  it('returns default error message', () => {
-    expect(isEmail()).toEqual('This is required');
-  });
-
   it('returns a custom error message', () => {
-    expect(isEmail(undefined, 'Email is required')).toEqual(
-      'Email is required'
+    expect(isEmail('t', 'Please enter valid email')).toEqual(
+      'Please enter valid email'
     );
   });
 
@@ -42,7 +38,7 @@ describe('validation: isEmail', () => {
     'test!@test.com',
     'test*@test.com'
   ])('should fail: %p', (value) => {
-    expect(isEmail(value)).toEqual('This is required');
+    expect(isEmail(value)).toEqual('Please enter a valid email address');
   });
 
   it.each([

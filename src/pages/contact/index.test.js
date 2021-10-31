@@ -35,57 +35,32 @@ describe('Pages: Contact', () => {
   });
 
   describe('Form', () => {
-    describe('Validations', () => {
-      it('renders no validations when invalid details are entered', async () => {
-        serve({
-          endpoint: services.contact.endpoint
-        });
+    describe('Validation', () => {
+      it('does not render any validation initially', () => {
         render(<WrappedComponent />);
-        fireEvent.change(screen.getByLabelText('name'), {
-          target: { value: 'name' }
-        });
-        fireEvent.change(screen.getByLabelText('email'), {
-          target: { value: 'test' }
-        });
-        fireEvent.change(screen.getByLabelText('number'), {
-          target: { value: '123' }
-        });
         expect(screen.queryByText('Name is required')).not.toBeInTheDocument();
-        expect(
-          screen.queryByText('Please enter a valid email')
-        ).not.toBeInTheDocument();
-        expect(
-          screen.queryByText('Please enter a valid number')
-        ).not.toBeInTheDocument();
+        expect(screen.queryByText('Email is required')).not.toBeInTheDocument();
       });
 
-      it('renders all required validation together on submit', () => {
-        serve({
-          endpoint: services.contact.endpoint
-        });
+      it('renders all required validation on submit', () => {
         render(<WrappedComponent />);
         userEvent.click(screen.getByRole('button'));
         expect(screen.queryByText('Name is required')).toBeInTheDocument();
         expect(screen.queryByText('Email is required')).toBeInTheDocument();
       });
 
-      it('renders valid email validation on submit', () => {
-        serve({
-          endpoint: services.contact.endpoint
-        });
+      it('renders validation when invalid details are entered', () => {
         render(<WrappedComponent />);
+        fireEvent.change(screen.getByLabelText('email'), {
+          target: { value: 'test' }
+        });
+        fireEvent.change(screen.getByLabelText('number'), {
+          target: { value: '123' }
+        });
         userEvent.click(screen.getByRole('button'));
         expect(
           screen.queryByText('Please enter a valid email')
-        ).not.toBeInTheDocument();
-      });
-
-      it('renders valid number validation on submit', () => {
-        serve({
-          endpoint: services.contact.endpoint
-        });
-        render(<WrappedComponent />);
-        userEvent.click(screen.getByRole('button'));
+        ).toBeInTheDocument();
         expect(
           screen.queryByText('Please enter a valid number')
         ).toBeInTheDocument();
@@ -95,33 +70,21 @@ describe('Pages: Contact', () => {
 
   describe('Labels', () => {
     it('renders label Full Name', () => {
-      serve({
-        endpoint: services.contact.endpoint
-      });
       render(<WrappedComponent />);
       expect(screen.getByLabelText('Full Name*')).toBeInTheDocument();
     });
 
     it('renders label Email', () => {
-      serve({
-        endpoint: services.contact.endpoint
-      });
       render(<WrappedComponent />);
       expect(screen.getByLabelText('Email*')).toBeInTheDocument();
     });
 
     it('renders label Number', () => {
-      serve({
-        endpoint: services.contact.endpoint
-      });
       render(<WrappedComponent />);
       expect(screen.getByLabelText('Number')).toBeInTheDocument();
     });
 
     it('renders label Message', () => {
-      serve({
-        endpoint: services.contact.endpoint
-      });
       render(<WrappedComponent />);
       expect(screen.getByLabelText('Message')).toBeInTheDocument();
     });

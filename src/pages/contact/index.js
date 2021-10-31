@@ -49,13 +49,13 @@ export default () => {
                     validate={(value) => isRequired(value, 'Name is required')}
                   >
                     {({
-                      meta: { valid, invalid, submitFailed },
+                      meta: { valid, invalid, submitFailed, pristine },
                       input: { onChange, name }
                     }) => (
                       <Fragment>
                         <label htmlFor={name}>Full Name*</label>
                         <TextInput
-                          isValid={valid}
+                          isValid={valid && !pristine}
                           isInvalid={invalid && submitFailed}
                           onChange={onChange}
                           name={name}
@@ -73,13 +73,13 @@ export default () => {
                     }
                   >
                     {({
-                      meta: { valid, invalid, submitFailed },
+                      meta: { valid, invalid, submitFailed, pristine },
                       input: { onChange, name }
                     }) => (
                       <Fragment>
                         <label htmlFor={name}>Email*</label>
                         <TextInput
-                          isValid={valid}
+                          isValid={valid && !pristine}
                           isInvalid={invalid && submitFailed}
                           onChange={onChange}
                           name={name}
@@ -92,18 +92,23 @@ export default () => {
                 <div className={styles.formInput}>
                   <Field
                     name="number"
-                    validate={(value) =>
-                      isPhoneNumber(value, 'Please enter a valid number')
-                    }
+                    validate={(value) => {
+                      if (value) {
+                        return isPhoneNumber(
+                          value,
+                          'Please enter a valid number'
+                        );
+                      }
+                    }}
                   >
                     {({
-                      meta: { valid, invalid, submitFailed },
+                      meta: { valid, invalid, submitFailed, pristine },
                       input: { onChange, name }
                     }) => (
                       <Fragment>
                         <label htmlFor={name}>Number</label>
                         <TextInput
-                          isValid={valid}
+                          isValid={valid && !pristine}
                           isInvalid={invalid && submitFailed}
                           onChange={onChange}
                           name={name}

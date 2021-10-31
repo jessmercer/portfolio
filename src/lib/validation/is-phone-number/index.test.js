@@ -1,12 +1,8 @@
 import isPhoneNumber from '.';
 
 describe('validation: isPhoneNumber', () => {
-  it('returns default error message', () => {
-    expect(isPhoneNumber()).toEqual('This is required');
-  });
-
   it('returns a custom error message', () => {
-    expect(isPhoneNumber(undefined, 'Please enter a valid number')).toEqual(
+    expect(isPhoneNumber('a', 'Please enter a valid number')).toEqual(
       'Please enter a valid number'
     );
   });
@@ -25,7 +21,7 @@ describe('validation: isPhoneNumber', () => {
     '1234567890',
     '+2212345678901'
   ])('should fail: %p', (value) => {
-    expect(isPhoneNumber(value)).toEqual('This is required');
+    expect(isPhoneNumber(value)).toEqual('This is not a valid number');
   });
 
   it.each([
