@@ -1,6 +1,6 @@
 # Portfolio
 
-A React app showcasing the websites and apps I have helped build. View app here: https://jessmercer.github.io/portfolio/
+A React app showcasing the websites and apps I have helped build. View the app here: https://jessmercer.github.io/portfolio/
 
 ## Available Scripts
 
