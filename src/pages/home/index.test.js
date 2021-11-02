@@ -74,17 +74,11 @@ describe('Pages: Home', () => {
         params: services.projects.params
       });
     });
-
     it('renders page on success', async () => {
       render(<WrappedComponent />);
-      await waitForElementToBeRemoved(() =>
-        screen.queryByText(
-          'Oops, something went wrong with loading the homepage.'
-        )
-      );
+      await waitForElementToBeRemoved(() => screen.queryByText('Loading'));
       expect(screen.getByText('Projects')).toBeInTheDocument();
     });
-
     describe('Projects', () => {
       it.each(projectsResponse)(
         'renders the correct components for project %#',

@@ -18,10 +18,15 @@ process.env = Object.assign(process.env, {
 
 export const setupWrapper = ({ path, location } = {}) => {
   let history = createMemoryHistory();
-  const queryClient = new QueryClient();
+  let queryClient;
   const queryCache = new QueryCache();
 
+  beforeEach(() => {
+    queryClient = new QueryClient();
+  });
+
   afterEach(() => {
+    queryClient = null;
     queryCache.clear();
   });
 
@@ -54,12 +59,12 @@ export const setupServer = () => {
     });
   });
 
-  afterAll(() => {
-    server.close();
-  });
-
   afterEach(() => {
     server.resetHandlers();
+  });
+
+  afterAll(() => {
+    server.close();
   });
 
   const serve = ({ endpoint, status = 200, data, params, method = 'get' }) => {
